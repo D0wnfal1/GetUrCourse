@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.34916.146
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{0311D5D2-FEE4-4F75-AEBF-5B32A06EB171}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FrontEnd", "FrontEnd", "{8AB498A7-6518-408C-937F-647452AEA70F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GateWay", "GateWay", "{AA472A8A-5CE0-4377-99C8-C5E23F836AAE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetUrCourse.Services.NotificationAPI", "GetUrCourse.Services.NotificationAPI\GetUrCourse.Services.NotificationAPI.csproj", "{F6523709-1301-4146-864D-ED61FA4CB246}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F6523709-1301-4146-864D-ED61FA4CB246}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6523709-1301-4146-864D-ED61FA4CB246}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6523709-1301-4146-864D-ED61FA4CB246}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6523709-1301-4146-864D-ED61FA4CB246}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F6523709-1301-4146-864D-ED61FA4CB246} = {0311D5D2-FEE4-4F75-AEBF-5B32A06EB171}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A29657BA-E9BF-4A11-AC3B-2C7B9BCD1F02}
+	EndGlobalSection
+EndGlobal

@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PaymentAPI.Model;
 
 namespace PaymentAPI.Data
 {
@@ -9,6 +8,5 @@ namespace PaymentAPI.Data
         {
             
         }
-        public DbSet<Payment> Payments { get; set; }
     }
 }

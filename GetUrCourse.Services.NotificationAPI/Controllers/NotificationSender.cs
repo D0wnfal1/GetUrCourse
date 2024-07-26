@@ -9,7 +9,7 @@ namespace GetUrCourse.Services.NotificationAPI.Controllers
     public class NotificationSenderController(INotificationService notificationService) : ControllerBase
     {
         [HttpPost("send_confirm_email")]
-        public async Task<IActionResult> SendConfirmEmail(UserDto userDto)
+        public async Task<IActionResult> SendConfirmEmail([FromBody]UserDto userDto)
         {
             var result = await notificationService.SendConfirmEmailAsync(userDto);
 
@@ -22,7 +22,7 @@ namespace GetUrCourse.Services.NotificationAPI.Controllers
         }
 
         [HttpPost("send_register_course_email")]
-        public async Task<IActionResult> SendRegisterCourseEmail(UserDto userDto, string courseName)
+        public async Task<IActionResult> SendRegisterCourseEmail([FromBody]UserDto userDto, string courseName)
         {
             var result = await notificationService.SendRegisterCourseEmailAsync(userDto, courseName);
 
@@ -35,7 +35,7 @@ namespace GetUrCourse.Services.NotificationAPI.Controllers
         }
         
         [HttpPost("send_ban_email")]
-        public async Task<IActionResult> SendBanEmail(UserDto userDto)
+        public async Task<IActionResult> SendBanEmail([FromBody]UserDto userDto)
         {
             var result = await notificationService.SendBanEmailAsync(userDto);
 
@@ -48,7 +48,7 @@ namespace GetUrCourse.Services.NotificationAPI.Controllers
         }
         
         [HttpPost("send_teacher_confirm_email")]
-        public async Task<IActionResult> SendTeacherConfirmEmail(UserDto userDto)
+        public async Task<IActionResult> SendTeacherConfirmEmail([FromBody]UserDto userDto)
         {
             var result = await notificationService.SendTeacherConfirmEmailAsync(userDto);
 
@@ -61,7 +61,7 @@ namespace GetUrCourse.Services.NotificationAPI.Controllers
         }
         
         [HttpPost("send_homework_email")]
-        public async Task<IActionResult> SendHomeworkEmail(UserDto userDto)
+        public async Task<IActionResult> SendHomeworkEmail([FromBody]UserDto userDto)
         {
             var result = await notificationService.SendHomeworkEmailAsync(userDto);
 
@@ -74,7 +74,7 @@ namespace GetUrCourse.Services.NotificationAPI.Controllers
         }
         
         [HttpPost("send_homework_review_email")]
-        public async Task<IActionResult> SendHomeworkReviewEmail(UserDto userDto)
+        public async Task<IActionResult> SendHomeworkReviewEmail([FromBody]UserDto userDto)
         {
             var result = await notificationService.SendHomeworkReviewEmailAsync(userDto);
 
@@ -87,7 +87,7 @@ namespace GetUrCourse.Services.NotificationAPI.Controllers
         }
         
         [HttpPost("send_course_crud_email")]
-        public async Task<IActionResult> SendHomeworkReviewEmail(UserDto userDto, string courseName, string type)
+        public async Task<IActionResult> SendHomeworkReviewEmail([FromBody]UserDto userDto, string courseName, string type)
         {
             var result = await notificationService.SendCreateCourseEmailAsync(userDto, courseName, type);
 
@@ -100,7 +100,7 @@ namespace GetUrCourse.Services.NotificationAPI.Controllers
         }
         
         [HttpPost("send_create_new_admin_email")]
-        public async Task<IActionResult> SendCreateAdminEmail(UserDto userDto)
+        public async Task<IActionResult> SendCreateAdminEmail([FromBody]UserDto userDto)
         {
             var result = await notificationService.SendCreateAdminEmailAsync(userDto);
 
@@ -113,7 +113,7 @@ namespace GetUrCourse.Services.NotificationAPI.Controllers
         }
         
         [HttpPost("send_meeting_notification_email")]
-        public async Task<IActionResult> SendMeetingNotificationEmail(UserDto userDto, string teacherName, string courseName)
+        public async Task<IActionResult> SendMeetingNotificationEmail([FromBody]UserDto userDto, string teacherName, string courseName)
         {
             var result = await notificationService.SendMeetingEmailAsync(userDto, teacherName, courseName);
 
@@ -126,7 +126,7 @@ namespace GetUrCourse.Services.NotificationAPI.Controllers
         }
         
         [HttpPost("send_schedule_notification_email")]
-        public async Task<IActionResult> SendScheduleNotificationEmail(UserDto userDto, string teacherName, string courseName, DateTime dataCourse)
+        public async Task<IActionResult> SendScheduleNotificationEmail([FromBody]UserDto userDto, string teacherName, string courseName, DateTime dataCourse)
         {
             var result = await notificationService.SendScheduleEmailAsync(userDto, teacherName, courseName, dataCourse);
 
@@ -139,7 +139,7 @@ namespace GetUrCourse.Services.NotificationAPI.Controllers
         }
         
         [HttpPost("send_payment_notification_email")]
-        public async Task<IActionResult> SendPaymentNotificationEmail(UserDto userDto, PaymentDto paymentDto)
+        public async Task<IActionResult> SendPaymentNotificationEmail([FromQuery]UserDto userDto, [FromQuery]PaymentDto paymentDto)
         {
             var result = await notificationService.SendPaymentConfirmationEmailAsync(userDto, paymentDto);
 

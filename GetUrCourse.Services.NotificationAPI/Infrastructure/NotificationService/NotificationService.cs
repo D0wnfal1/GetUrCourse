@@ -1,6 +1,7 @@
 using GetUrCourse.Services.NotificationAPI.Dto;
 using GetUrCourse.Services.NotificationAPI.Infrastructure.TemplateReader;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace GetUrCourse.Services.NotificationAPI.Infrastructure.NotificationService;
 
@@ -207,7 +208,7 @@ public class NotificationService(IEmailSender emailSender, ITemplateReader templ
         return true;
     }
     
-    public async Task<bool> SendPaymentConfirmationEmailAsync(UserDto userDto, PaymentDto paymentDto)
+    public async Task<bool> SendPaymentConfirmationEmailAsync([FromQuery]UserDto userDto, [FromQuery]PaymentDto paymentDto)
     {
         var templatePath = "Template/Payment.html";
         var htmlBody = await templateReader.ReadTemplateAsync(templatePath);

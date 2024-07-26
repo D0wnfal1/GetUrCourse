@@ -1,3 +1,4 @@
+
 using GetUrCourse.Services.NotificationAPI.Infrastructure.MailJet;
 using GetUrCourse.Services.NotificationAPI.Infrastructure.NotificationService;
 using GetUrCourse.Services.NotificationAPI.Infrastructure.TemplateReader;
@@ -10,6 +11,13 @@ builder.Services.AddTransient<ITemplateReader, TemplateReader>();
 builder.Services.AddTransient<INotificationService, NotificationService>();
 
 builder.Services.AddControllers();
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+
+builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -24,6 +32,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthorization();
 
 app.MapControllers();
 

@@ -1,0 +1,6 @@
+@GetUrCourse.Services.NotificationAPI_HostAddress = http://localhost:5019
+
+GET {{GetUrCourse.Services.NotificationAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

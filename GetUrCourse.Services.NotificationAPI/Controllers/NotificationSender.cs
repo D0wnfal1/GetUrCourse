@@ -1,50 +1,156 @@
-using GetUrCourse.Services.NotificationAPI.Utility;
-using Microsoft.AspNetCore.Identity.UI.Services;
+using GetUrCourse.Services.NotificationAPI.Dto;
+using GetUrCourse.Services.NotificationAPI.Infrastructure.NotificationService;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GetUrCourse.Services.NotificationAPI.Controllers;
-
-[ApiController]
-[Route("api/[controller]")]
-public class NotificationSender : ControllerBase
+namespace GetUrCourse.Services.NotificationAPI.Controllers
 {
-    private readonly IEmailSender _emailSender;
-    private readonly IWebHostEnvironment _webHostEnvironment;
-
-    public NotificationSender(IEmailSender emailSender, IWebHostEnvironment webHostEnvironment)
+    [ApiController]
+    [Route("api/[controller]")]
+    public class NotificationSenderController(INotificationService notificationService) : ControllerBase
     {
-        _webHostEnvironment = webHostEnvironment;
-        _emailSender = emailSender;
-    }
-
-    [HttpPost("send_email")]
-    public async Task<IActionResult> EmailSend(string email)
-    {
-        var pathToTemplate = Path.Combine(_webHostEnvironment.ContentRootPath, "Template", "Inquiry.html");
-
-        // Проверка существования файла
-        if (!System.IO.File.Exists(pathToTemplate))
+        [HttpPost("send_confirm_email")]
+        public async Task<IActionResult> SendConfirmEmail(UserDto userDto)
         {
+            var result = await notificationService.SendConfirmEmailAsync(userDto);
+
+            if (result)
+            {
+                return Ok();
+            }
+
             return NotFound("Template file not found.");
         }
 
-        string htmlBody;
-        string subject = "New Inquiry";
-        
-        using (StreamReader sr = System.IO.File.OpenText(pathToTemplate))
+        [HttpPost("send_register_course_email")]
+        public async Task<IActionResult> SendRegisterCourseEmail(UserDto userDto, string courseName)
         {
-            htmlBody = await sr.ReadToEndAsync();
+            var result = await notificationService.SendRegisterCourseEmailAsync(userDto, courseName);
+
+            if (result)
+            {
+                return Ok();
+            }
+
+            return NotFound("Template file not found.");
         }
         
-        htmlBody = htmlBody.Replace("{0}", "productUserVm.FullName")
-            .Replace("{1}", "productUserVm.User.Email")
-            .Replace("{2}", "productUserVm.PhoneNumber")
-            .Replace("{3}", "productListSb.ToString()")
-            .Replace("{4}", 400.ToString());
+        [HttpPost("send_ban_email")]
+        public async Task<IActionResult> SendBanEmail(UserDto userDto)
+        {
+            var result = await notificationService.SendBanEmailAsync(userDto);
 
-        await _emailSender.SendEmailAsync(email, subject, htmlBody);
-        await _emailSender.SendEmailAsync(WC.AdminEmail, subject, htmlBody);
+            if (result)
+            {
+                return Ok();
+            }
+
+            return NotFound("Template file not found.");
+        }
         
-        return Ok();
+        [HttpPost("send_teacher_confirm_email")]
+        public async Task<IActionResult> SendTeacherConfirmEmail(UserDto userDto)
+        {
+            var result = await notificationService.SendTeacherConfirmEmailAsync(userDto);
+
+            if (result)
+            {
+                return Ok();
+            }
+
+            return NotFound("Template file not found.");
+        }
+        
+        [HttpPost("send_homework_email")]
+        public async Task<IActionResult> SendHomeworkEmail(UserDto userDto)
+        {
+            var result = await notificationService.SendHomeworkEmailAsync(userDto);
+
+            if (result)
+            {
+                return Ok();
+            }
+
+            return NotFound("Template file not found.");
+        }
+        
+        [HttpPost("send_homework_review_email")]
+        public async Task<IActionResult> SendHomeworkReviewEmail(UserDto userDto)
+        {
+            var result = await notificationService.SendHomeworkReviewEmailAsync(userDto);
+
+            if (result)
+            {
+                return Ok();
+            }
+
+            return NotFound("Template file not found.");
+        }
+        
+        [HttpPost("send_course_crud_email")]
+        public async Task<IActionResult> SendHomeworkReviewEmail(UserDto userDto, string courseName, string type)
+        {
+            var result = await notificationService.SendCreateCourseEmailAsync(userDto, courseName, type);
+
+            if (result)
+            {
+                return Ok();
+            }
+
+            return NotFound("Template file not found.");
+        }
+        
+        [HttpPost("send_create_new_admin_email")]
+        public async Task<IActionResult> SendCreateAdminEmail(UserDto userDto)
+        {
+            var result = await notificationService.SendCreateAdminEmailAsync(userDto);
+
+            if (result)
+            {
+                return Ok();
+            }
+
+            return NotFound("Template file not found.");
+        }
+        
+        [HttpPost("send_meeting_notification_email")]
+        public async Task<IActionResult> SendMeetingNotificationEmail(UserDto userDto, string teacherName, string courseName)
+        {
+            var result = await notificationService.SendMeetingEmailAsync(userDto, teacherName, courseName);
+
+            if (result)
+            {
+                return Ok();
+            }
+
+            return NotFound("Template file not found.");
+        }
+        
+        [HttpPost("send_schedule_notification_email")]
+        public async Task<IActionResult> SendScheduleNotificationEmail(UserDto userDto, string teacherName, string courseName, DateTime dataCourse)
+        {
+            var result = await notificationService.SendScheduleEmailAsync(userDto, teacherName, courseName, dataCourse);
+
+            if (result)
+            {
+                return Ok();
+            }
+
+            return NotFound("Template file not found.");
+        }
+        
+        [HttpPost("send_payment_notification_email")]
+        public async Task<IActionResult> SendPaymentNotificationEmail(UserDto userDto, PaymentDto paymentDto)
+        {
+            var result = await notificationService.SendPaymentConfirmationEmailAsync(userDto, paymentDto);
+
+            if (result)
+            {
+                return Ok();
+            }
+
+            return NotFound("Template file not found.");
+        }
+        
+        
     }
 }

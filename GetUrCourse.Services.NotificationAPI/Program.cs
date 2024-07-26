@@ -1,9 +1,13 @@
-using GetUrCourse.Services.NotificationAPI.Utility;
+using GetUrCourse.Services.NotificationAPI.Infrastructure.MailJet;
+using GetUrCourse.Services.NotificationAPI.Infrastructure.NotificationService;
+using GetUrCourse.Services.NotificationAPI.Infrastructure.TemplateReader;
 using Microsoft.AspNetCore.Identity.UI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
+builder.Services.AddTransient<ITemplateReader, TemplateReader>();
+builder.Services.AddTransient<INotificationService, NotificationService>();
 
 builder.Services.AddControllers();
 

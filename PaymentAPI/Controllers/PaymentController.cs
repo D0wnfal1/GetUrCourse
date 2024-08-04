@@ -1,68 +1,22 @@
-﻿using LiqPay.Models;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Mvc;
 using PaymentAPI.Model;
-using System;
-using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Text;
+using System.Threading.Tasks;
 
-namespace YourNamespace.Controllers
+[Route("api/[controller]")]
+[ApiController]
+public class PaymentController : ControllerBase
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class PaymentController : ControllerBase
+    private readonly LiqPayService _liqPayService;
+
+    public PaymentController(LiqPayService liqPayService)
     {
-        private static readonly string _publicKey = "";
-        private static readonly string _privateKey = "";
-        private static LiqPayCheckoutFormModel GetLiqPayModel(Order order)
-        {
-            var signatureSource = new LiqPayCheckout
-            {
-                PublicKey = _publicKey,
-                Version = 3,
-                Action = "pay",
-                Amount = order.Amount,
-                Currency = order.Currency,
-                Description = order.Description,
-                OrderId = order.OrderId,
-                Sandbox = 1,
-                ProductCategory = "Goods",
-                ProductDescription = order.Description,
-                ProductName = "Order Payment"
-            };
+        _liqPayService = liqPayService;
+    }
 
-            var jsonString = JsonConvert.SerializeObject(signatureSource);
-            var dataHash = Convert.ToBase64String(Encoding.UTF8.GetBytes(jsonString));
-            var signatureHash = GetLiqPaySignature(dataHash);
-
-            return new LiqPayCheckoutFormModel
-            {
-                Data = dataHash,
-                Signature = signatureHash
-            };
-        }
-        private static string GetLiqPaySignature(string data)
-        {
-            var hash = SHA1.Create().ComputeHash(Encoding.UTF8.GetBytes(_privateKey + data + _privateKey));
-            return Convert.ToBase64String(hash);
-        }
-
-        [HttpGet("generate-payment-url/{id}")]
-        public IActionResult GeneratePaymentUrl(string id)
-        {
-            var order = new Order
-            {
-                OrderId = id,
-                Amount = 100.00m,
-                Currency = "UAH",
-                Description = "Оплата заказа №" + id
-            };
-
-            var liqPayModel = GetLiqPayModel(order);
-            var paymentUrl = $"https://www.liqpay.ua/api/3/checkout?data={Uri.EscapeDataString(liqPayModel.Data)}&signature={Uri.EscapeDataString(liqPayModel.Signature)}";
-
-            return Ok(new LiqPayCheckoutUrlModel { Url = paymentUrl });
-        }
+    [HttpPost("CreatePayment")]
+    public IActionResult CreatePayment([FromBody] PaymentModel request)
+    {
+        var paymentUrl = _liqPayService.CreatePayment(request.OrderId, request.Amount, request.Currency, request.Description, request.CallbackUrl);
+        return Ok(new { url = paymentUrl });
     }
 }

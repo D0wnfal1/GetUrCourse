@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using PaymentAPI.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,9 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddHttpClient();
-builder.Services.AddDbContext<PaymentContext>(options =>
-        options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddSingleton(new LiqPayService(Environment.GetEnvironmentVariable("LIQPAY_PUBLIC_KEY"), Environment.GetEnvironmentVariable("LIQPAY_PRIVATE_KEY")));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

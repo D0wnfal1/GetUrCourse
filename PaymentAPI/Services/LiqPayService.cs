@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,19 +18,27 @@ public class LiqPayService
         _privateKey = privateKey;
         _httpClient = new HttpClient();
     }
-
-    public string CreatePayment(string orderId, decimal amount, string currency, string description, string callbackUrl)
+    /// <summary>
+    /// Create URL for LiqPay payment.
+    /// </summary>
+    /// <returns>URL for LiqPay payment.</returns>
+    public string CreatePayment(string orderId, string amount, string description)
     {
         var data = new Dictionary<string, string>
     {
+        // API LiqPay version
         {"version", "3"},
         {"public_key", _publicKey},
-        {"action", "pay"},
-        {"amount", amount.ToString("F2")},
-        {"currency", currency},
+        // action of payment (pay, subscribe ... etc)
+        {"action", "subscribe"},
+        {"amount", amount},
+        // payment currency (UAH, USD ...)
+        {"currency", "UAH"},
         {"description", description},
         {"order_id", orderId},
-        {"server_url", callbackUrl}
+        // Only for subscribe action ...
+        {"subscribe_date_start", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss")},
+        {"subscribe_periodicity", ("month")}
     };
 
         var json = JsonConvert.SerializeObject(data);

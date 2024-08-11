@@ -1,6 +1,5 @@
 ﻿using GetUrCourse.Services.PaymentAPI.Constants;
 using GetUrCourse.Services.PaymentAPI.Infrastructure.Repositories;
-using GetUrCourse.Services.PaymentAPI.Services;
 using Newtonsoft.Json;
 using PaymentAPI.Model;
 using System;
@@ -10,7 +9,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-public class PaymentService : IPaymentService
+public class PaymentService 
 {
     private readonly string _publicKey;
     private readonly string _privateKey;
@@ -40,9 +39,10 @@ public class PaymentService : IPaymentService
         {"currency", "UAH"},
         {"description", description},
         {"order_id", orderId},
-        // Only for subscribe action ...
-        //{"subscribe_date_start", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss")},
-        //{"subscribe_periodicity", "month"}
+            // Only for subscribe action ...
+            //{"subscribe_date_start", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss")},
+            //{"subscribe_periodicity", "month"}
+            {"resultUrl", $""}
     };
 
         if (action.ToLower() == "subscribe")

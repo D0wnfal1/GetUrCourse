@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using GetUrCourse.Services.PaymentAPI.Models;
+using Microsoft.AspNetCore.Mvc;
 using PaymentAPI.Model;
 using System.Threading.Tasks;
 
@@ -6,21 +7,28 @@ using System.Threading.Tasks;
 [ApiController]
 public class PaymentController : ControllerBase
 {
-    private readonly LiqPayService _liqPayService;
+    private readonly PaymentService _paymentService;
 
-    public PaymentController(LiqPayService liqPayService)
+    public PaymentController(PaymentService paymentService)
     {
-        _liqPayService = liqPayService;
+        _paymentService = paymentService;
     }
-    /// <summary>
-    /// Create Url for payment n return itself.
-    /// </summary>
-    /// <param name="request">Payment request model.</param>
-    /// <returns>Url for payment</returns>
+
     [HttpPost("CreatePayment")]
-    public IActionResult CreatePayment([FromBody] PaymentModel request)
+    public async Task<IActionResult> CreatePayment([FromForm] PaymentRequestDTO request)
     {
-        var paymentUrl = _liqPayService.CreatePayment(request.OrderId, request.Amount, request.Description);
+        var paymentUrl = await _paymentService.CreatePaymentAsync(request.OrderId, request.Action, request.Amount, request.Description);
         return Ok(new { url = paymentUrl });
+    }
+
+    [HttpGet("GetPaymentStatus/{orderId}")]
+    public async Task<IActionResult> GetPaymentStatus(string orderId)
+    {
+        var payment = await _paymentService.GetPaymentStatusAsync(orderId);
+        if (payment == null)
+        {
+            return NotFound();
+        }
+        return Ok(payment);
     }
 }

@@ -1,15 +1,17 @@
 ﻿using GetUrCourse.Services.PaymentAPI.Constants;
 using GetUrCourse.Services.PaymentAPI.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PaymentAPI.Model;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Net.Http;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-public class PaymentService 
+public class PaymentService
 {
     private readonly string _publicKey;
     private readonly string _privateKey;
@@ -42,7 +44,8 @@ public class PaymentService
             // Only for subscribe action ...
             //{"subscribe_date_start", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss")},
             //{"subscribe_periodicity", "month"}
-            {"resultUrl", $""}
+            //{"resultUrl", $"api/PaymentController/Payment"}
+        {"result_url", $"https://localhost:7064/api/Payment/Redirect"}
     };
 
         if (action.ToLower() == "subscribe")
@@ -60,7 +63,7 @@ public class PaymentService
     }
     private string GenerateSignature(string base64Data)
     {
-        var sha1 = System.Security.Cryptography.SHA1.Create();
+        var sha1 = SHA1.Create();
         var hash = sha1.ComputeHash(Encoding.UTF8.GetBytes(_privateKey + base64Data + _privateKey));
         sha1.Dispose();
         return Convert.ToBase64String(hash);

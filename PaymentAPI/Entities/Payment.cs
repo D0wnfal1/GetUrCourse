@@ -24,5 +24,8 @@ namespace PaymentAPI.Model
 
         [JsonProperty("created_at")]
         public DateTime CreatedAt { get; set; }
+
+        [JsonProperty("subscription_end_date")]
+        public DateTime? SubscriptionEndDate { get; set; }
     }
 }

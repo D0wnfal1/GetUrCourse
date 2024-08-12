@@ -24,16 +24,15 @@ public class PaymentController : ControllerBase
         return Ok(new { url = paymentUrl });
     }
     [HttpPost("Redirect")]
-    public IActionResult Redirect()
+    [ApiExplorerSettings(IgnoreApi = true)]
+    public async Task<IActionResult> Redirect()
     {
-        var request_dictionary = Request.Form.Keys.ToDictionary(key => key, key => Request.Form[key]);
-        byte[] request_data = Convert.FromBase64String(request_dictionary["data"]);
-        string decodedString = Encoding.UTF8.GetString(request_data);
-        var request_data_dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(decodedString);
+        var requestDictionary = Request.Form.ToDictionary(key => key.Key, key => key.Value.ToString());
 
-        if (request_data_dictionary["status"] == "success")
+        bool isSuccess = await _paymentService.HandlePaymentResultAsync(requestDictionary);
+        if (isSuccess)
         {
-            return Ok();
+            return Redirect("https://localhost:7064/swagger/index.html");
         }
         else
         {

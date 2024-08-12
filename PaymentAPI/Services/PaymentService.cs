@@ -44,7 +44,7 @@ public class PaymentService
             // Only for subscribe action ...
             //{"subscribe_date_start", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss")},
             //{"subscribe_periodicity", "month"}
-            //{"resultUrl", $"api/PaymentController/Payment"}
+            // result_url for check payment status
         {"result_url", $"https://localhost:7064/api/Payment/Redirect"}
     };
 
@@ -77,11 +77,39 @@ public class PaymentService
             Action = action,
             Amount = amount,
             Description = description,
-            Status = "Created",
+            Status = PaymentSettings.IsCreated,
             CreatedAt = DateTime.UtcNow
         };
         await _paymentRepository.AddAsync(payment);
         return paymentUrl;
+    }
+    public async Task<bool> HandlePaymentResultAsync(Dictionary<string, string> requestDictionary)
+    {
+        if (requestDictionary.TryGetValue("data", out var base64Data) &&
+             requestDictionary.TryGetValue("signature", out var signature))
+        {
+            var decodedData = Encoding.UTF8.GetString(Convert.FromBase64String(base64Data));
+            var requestData = JsonConvert.DeserializeObject<Dictionary<string, string>>(decodedData);
+
+            var payment = await GetPaymentStatusAsync(requestData["order_id"]);
+            if (requestData["status"] == "success" || requestData["status"] == "subscribed")
+            {
+                payment.Status = PaymentSettings.IsSuccess;
+                if (payment.Action.ToLower() == "subscribe")
+                {
+                    var startDate = DateTime.UtcNow;
+                    var subscriptionPeriod = TimeSpan.FromDays(30);
+                    payment.SubscriptionEndDate = startDate.Add(subscriptionPeriod);
+                }
+            }
+            else
+            {
+                payment.Status = PaymentSettings.IsCanceled;
+            }
+            await SavePaymentAsync(payment);
+            return true;
+        }
+        return false;
     }
     public async Task<Payment> GetPaymentStatusAsync(string orderId)
     {

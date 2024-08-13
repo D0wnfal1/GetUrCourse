@@ -23,7 +23,7 @@ namespace PaymentAPI.Model
         public string Status { get; set; }
 
         [JsonProperty("created_at")]
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         [JsonProperty("subscription_end_date")]
         public DateTime? SubscriptionEndDate { get; set; }

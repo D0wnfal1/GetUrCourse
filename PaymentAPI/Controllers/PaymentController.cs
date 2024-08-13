@@ -1,10 +1,5 @@
-﻿using Azure.Core;
-using GetUrCourse.Services.PaymentAPI.Models;
+﻿using GetUrCourse.Services.PaymentAPI.Models;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using PaymentAPI.Model;
-using System.Text;
-using System.Threading.Tasks;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -50,7 +45,7 @@ public class PaymentController : ControllerBase
         }
         else
         {
-            return BadRequest();
+            return BadRequest(new { message = "Failed to update payment status" });
         }
     }
 }

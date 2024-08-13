@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GetUrCourse.Services.PaymentAPI.Migrations
 {
     [DbContext(typeof(PaymentDbContext))]
-    [Migration("20240811145530_InitialMigration")]
+    [Migration("20240813123910_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -50,6 +50,9 @@ namespace GetUrCourse.Services.PaymentAPI.Migrations
 
                     b.Property<string>("Status")
                         .HasColumnType("text");
+
+                    b.Property<DateTime?>("SubscriptionEndDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 

@@ -1,7 +1,6 @@
 using GetUrCourse.Services.PaymentAPI.Infrastructure.Data;
 using GetUrCourse.Services.PaymentAPI.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 

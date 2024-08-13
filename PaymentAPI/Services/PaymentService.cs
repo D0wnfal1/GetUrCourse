@@ -1,15 +1,9 @@
 ﻿using GetUrCourse.Services.PaymentAPI.Constants;
 using GetUrCourse.Services.PaymentAPI.Infrastructure.Repositories;
-using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PaymentAPI.Model;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 public class PaymentService
 {
@@ -41,15 +35,13 @@ public class PaymentService
         {"currency", "UAH"},
         {"description", description},
         {"order_id", orderId},
-            // Only for subscribe action ...
-            //{"subscribe_date_start", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss")},
-            //{"subscribe_periodicity", "month"}
             // result_url for check payment status
         {"result_url", $"https://localhost:7064/api/Payment/Redirect"}
     };
 
         if (action.ToLower() == "subscribe")
         {
+            // Only for subscribe action ...
             data.Add("subscribe_date_start", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
             data.Add("subscribe_periodicity", "month");
         }
@@ -83,6 +75,10 @@ public class PaymentService
         await _paymentRepository.AddAsync(payment);
         return paymentUrl;
     }
+    /// <summary>
+    /// Update Payment Result Status
+    /// </summary>
+    /// <returns>bool value</returns>
     public async Task<bool> HandlePaymentResultAsync(Dictionary<string, string> requestDictionary)
     {
         if (requestDictionary.TryGetValue("data", out var base64Data) &&
@@ -111,6 +107,10 @@ public class PaymentService
         }
         return false;
     }
+    /// <summary>
+    /// Create LiqPay request with action "unsubscribe".
+    /// </summary>
+    /// <returns>bool value</returns>
     public async Task<bool> UnsubscribeAsync(string orderId)
     {
         var data = new Dictionary<string, string>
@@ -154,7 +154,7 @@ public class PaymentService
                 }
             }
         }
-
+                                                                                                                                                                                                                                                                                                                                                                            
         return false;
     }
 

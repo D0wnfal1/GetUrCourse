@@ -111,6 +111,54 @@ public class PaymentService
         }
         return false;
     }
+    public async Task<bool> UnsubscribeAsync(string orderId)
+    {
+        var data = new Dictionary<string, string>
+    {
+        {"version", PaymentSettings.ApiVersion.ToString()},
+        {"public_key", _publicKey},
+        {"action", "unsubscribe"},
+        {"order_id", orderId}
+    };
+
+        var json = JsonConvert.SerializeObject(data);
+        var base64Data = Convert.ToBase64String(Encoding.UTF8.GetBytes(json));
+
+        var signature = GenerateSignature(base64Data);
+
+        var unsubscribeUrl = PaymentSettings.LiqpayApiUrl;
+
+        using (var httpClient = new HttpClient())
+        {
+            var content = new FormUrlEncodedContent(new Dictionary<string, string>
+        {
+            {"data", base64Data},
+            {"signature", signature}
+        });
+
+            var response = await httpClient.PostAsync(unsubscribeUrl, content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
+                var responseData = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseContent);
+
+                if (responseData["status"] == "unsubscribed")
+                {
+                    var payment = await GetPaymentStatusAsync(orderId);
+                    payment.Status = PaymentSettings.IsUnsubscribed;
+                    payment.SubscriptionEndDate = DateTime.UtcNow;
+                    await SavePaymentAsync(payment);
+
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+
     public async Task<Payment> GetPaymentStatusAsync(string orderId)
     {
         return await _paymentRepository.GetByOrderIdAsync(orderId);

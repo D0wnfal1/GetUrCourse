@@ -23,6 +23,20 @@ public class PaymentController : ControllerBase
         var paymentUrl = _paymentService.CreatePaymentAsync(request.OrderId, request.Action, request.Amount, request.Description);
         return Ok(new { url = paymentUrl });
     }
+    [HttpPost("Unsubscribe")]
+    public async Task<IActionResult> Unsubscribe([FromForm] string orderId)
+    {
+        bool isUnsubscribed = await _paymentService.UnsubscribeAsync(orderId);
+
+        if (isUnsubscribed)
+        {
+            return Ok(new { message = "Subscription cancelled successfully." });
+        }
+        else
+        {
+            return BadRequest(new { message = "Failed to cancel subscription." });
+        }
+    }
     [HttpPost("Redirect")]
     [ApiExplorerSettings(IgnoreApi = true)]
     public async Task<IActionResult> Redirect()

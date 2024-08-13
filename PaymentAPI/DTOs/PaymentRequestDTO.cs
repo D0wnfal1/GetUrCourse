@@ -9,7 +9,7 @@ namespace GetUrCourse.Services.PaymentAPI.Models
         public string OrderId { get; set; }
 
         /// <summary>
-        /// Action type for payment. Possible values: "pay", "subscribe", "unsubscribe".
+        /// Action type for payment. Possible values: "pay", "subscribe".
         /// </summary>
         [JsonProperty("action")]
         public string Action { get; set; }

@@ -8,5 +8,6 @@
         public const string IsCreated = "Created";
         public const string IsSuccess = "Success";
         public const string IsCanceled = "Canceled";
+        public const string IsUnsubscribed = "Unsubscribe";
     }
 }

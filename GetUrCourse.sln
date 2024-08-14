@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GateWay", "GateWay", "{AA47
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetUrCourse.Services.NotificationAPI", "GetUrCourse.Services.NotificationAPI\GetUrCourse.Services.NotificationAPI.csproj", "{F6523709-1301-4146-864D-ED61FA4CB246}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetUrCourse.Services.CourseAPI", "GetUrCourse.Services.CourseAPI\GetUrCourse.Services.CourseAPI.csproj", "{8AA37788-02AE-43CE-B267-5F90B4D93053}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,12 +23,17 @@ Global
 		{F6523709-1301-4146-864D-ED61FA4CB246}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6523709-1301-4146-864D-ED61FA4CB246}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6523709-1301-4146-864D-ED61FA4CB246}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8AA37788-02AE-43CE-B267-5F90B4D93053}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AA37788-02AE-43CE-B267-5F90B4D93053}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AA37788-02AE-43CE-B267-5F90B4D93053}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AA37788-02AE-43CE-B267-5F90B4D93053}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F6523709-1301-4146-864D-ED61FA4CB246} = {0311D5D2-FEE4-4F75-AEBF-5B32A06EB171}
+		{8AA37788-02AE-43CE-B267-5F90B4D93053} = {0311D5D2-FEE4-4F75-AEBF-5B32A06EB171}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A29657BA-E9BF-4A11-AC3B-2C7B9BCD1F02}

@@ -3,6 +3,10 @@ using GetUrCourse.Services.AuthAPI.DTOs;
 using GetUrCourse.Services.AuthAPI.Entities;
 using GetUrCourse.Services.PaymentAPI.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace GetUrCourse.Services.AuthAPI.Services
 {
@@ -92,10 +96,30 @@ namespace GetUrCourse.Services.AuthAPI.Services
                 return (null, "Username or Password is incorrect!");
             }
 
+            var roles = await _userManager.GetRolesAsync(userFromDb);
+            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+            byte[] key = Encoding.ASCII.GetBytes(_token);
+
+            SecurityTokenDescriptor tokenDescriptor = new()
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim("fullName", userFromDb.Name),
+                    new Claim("id", userFromDb.Id.ToString()),
+                    new Claim(ClaimTypes.Email, userFromDb.UserName.ToString()),
+                    new Claim(ClaimTypes.Role, roles.FirstOrDefault()),
+                }),
+                // Token Expired in 7DAYS!
+                Expires = DateTime.UtcNow.AddDays(7),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
+
             var loginResponse = new LoginResponseDTO()
             {
                 Email = userFromDb.Email,
-                Token = "_token" // actual token here
+                Token = tokenHandler.WriteToken(token)
             };
 
             if (loginResponse.Email == null || string.IsNullOrEmpty(loginResponse.Token))

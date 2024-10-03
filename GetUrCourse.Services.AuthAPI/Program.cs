@@ -1,11 +1,10 @@
 using GetUrCourse.Services.AuthAPI.Entities;
 using GetUrCourse.Services.AuthAPI.Services;
 using GetUrCourse.Services.PaymentAPI.Infrastructure.Data;
+using GetUrCourse.Services.PaymentAPI.Infrastructure.DbInitializer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
@@ -54,7 +53,7 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AuthDbContext>();
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AuthDbContext>().AddDefaultTokenProviders();
 
 // Return to TRUE in PROD!!!
 builder.Services.Configure<IdentityOptions>(options =>
@@ -85,6 +84,9 @@ builder.Services.AddAuthentication(u =>
 });
 
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<IDbInitializer, DbInitializer>();
+
+// Настройка и запуск приложения
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -100,4 +102,15 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+SeedDatabase();
+
 app.Run();
+
+void SeedDatabase()
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var dbInitializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
+        dbInitializer.Initialize();
+    }
+}

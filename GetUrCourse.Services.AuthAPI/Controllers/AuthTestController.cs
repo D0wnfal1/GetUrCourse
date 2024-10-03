@@ -1,6 +1,5 @@
 ﻿using GetUrCourse.Services.AuthAPI.Constants;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GetUrCourse.Services.AuthAPI.Controllers

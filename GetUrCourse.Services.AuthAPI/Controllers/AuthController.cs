@@ -1,7 +1,6 @@
 ﻿using GetUrCourse.Services.AuthAPI.DTOs;
 using GetUrCourse.Services.AuthAPI.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace GetUrCourse.Services.AuthAPI.Controllers
 {

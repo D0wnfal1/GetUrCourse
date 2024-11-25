@@ -1,5 +1,4 @@
-using CSharpFunctionalExtensions;
-using GetUrCourse.Services.CourseAPI.Core.Validators;
+using GetUrCourse.Services.CourseAPI.Shared;
 
 namespace GetUrCourse.Services.CourseAPI.Core.Models;
 
@@ -12,13 +11,12 @@ public class Category
 
     private Category() { }
 
-    private Category(string title, string description, Category? parentCategory)
+    private Category(string title, string description, Guid? parentCategory)
     {
         Id = Guid.NewGuid();
         Title = title;
         Description = description;
-        ParentCategory = parentCategory;
-        ParentCategoryId = parentCategory?.Id;
+        ParentCategoryId = parentCategory ?? Guid.Empty;
         CoursesCount = 0;
     }
        
@@ -47,38 +45,25 @@ public class Category
         _courses.Remove(course);
         CoursesCount--;
     }
-    
-    private static Result<Category> Validate(Category category)
-    {
-        var validator = new CategoryValidator();
-        var result = validator.Validate(category);
-        if (!result.IsValid)
-        {
-            var errors = string.Join("; ", result.Errors.Select(e => e.ErrorMessage));
-            return Result.Failure<Category>(errors);
-        }
-        return Result.Success(category);
-    }
 
     public static Result<Category> Create(
         string title, 
         string description, 
-        Category? parentCategory)
+        Guid? parentCategory)
     {
         var category = new Category(title, description, parentCategory);
-        return Validate(category);
+        return Result.Success(category);
     }
     
     public Result Update(
-        string title, 
-        string description, 
-        Category? parentCategory)
+        string? title, 
+        string? description, 
+        Guid? parentCategoryId)
     {
-        Title = title;
-        Description = description;
-        ParentCategory = parentCategory ?? ParentCategory;
+        Title = title ?? Title;
+        Description = description ?? Description;
+        ParentCategoryId = parentCategoryId ?? ParentCategoryId;
         
-        var validationResult = Validate(this);
-        return validationResult.IsFailure ? validationResult : Result.Success();
+        return Result.Success();
     }
 }

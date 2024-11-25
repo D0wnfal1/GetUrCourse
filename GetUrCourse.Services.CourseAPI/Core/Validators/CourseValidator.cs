@@ -1,7 +1,7 @@
 using FluentValidation;
-using GetUrCourse.Services.CourseAPI.Core.Enums;
 using GetUrCourse.Services.CourseAPI.Core.Exceptions;
 using GetUrCourse.Services.CourseAPI.Core.Models;
+using GetUrCourse.Services.CourseAPI.Shared;
 
 namespace GetUrCourse.Services.CourseAPI.Core.Validators;
 
@@ -9,29 +9,35 @@ public class CourseValidator : AbstractValidator<Course>
 {
     public CourseValidator()
     {
-         RuleFor(c => c.Title)
-            .NotEmpty().WithMessage(DomainExceptions.Empty(nameof(Course.Title)))
-            .MaximumLength(Course.MaxCourseTitleLength)
-            .WithMessage(DomainExceptions.MaxLength(nameof(Course.Title), Course.MaxCourseTitleLength));
+        RuleFor(c => c.Title)
+            .NotEmptyAndNotLongerThan(
+                nameof(Course.Title),
+                Course.MaxCourseTitleLength
+            );
 
         RuleFor(c => c.Subtitle)
-            .NotEmpty().WithMessage(DomainExceptions.Empty(nameof(Course.Subtitle)))
-            .MaximumLength(Course.MaxCourseSubtitleLength)
-            .WithMessage(DomainExceptions.MaxLength(nameof(Course.Subtitle), Course.MaxCourseSubtitleLength));
+            .NotEmptyAndNotLongerThan(
+                nameof(Course.Subtitle),
+                Course.MaxCourseSubtitleLength
+            );
 
         RuleFor(c => c.FullDescription)
-            .NotEmpty().WithMessage(DomainExceptions.Empty(nameof(Course.FullDescription)))
-            .MaximumLength(Course.MaxCourseFullDescriptionLength)
-            .WithMessage(DomainExceptions.MaxLength(nameof(Course.FullDescription), Course.MaxCourseFullDescriptionLength));
+            .NotEmptyAndNotLongerThan(
+                nameof(Course.FullDescription),
+                Course.MaxCourseFullDescriptionLength
+            );
 
         RuleFor(c => c.Requirements)
-            .NotEmpty().WithMessage(DomainExceptions.Empty(nameof(Course.Requirements)))
-            .MaximumLength(Course.MaxCourseRequirementsLength)
-            .WithMessage(DomainExceptions.MaxLength(nameof(Course.Requirements), Course.MaxCourseRequirementsLength));
+            .NotEmptyAndNotLongerThan(
+                nameof(Course.Requirements),
+                Course.MaxCourseRequirementsLength
+            );
 
         RuleFor(c => c.ImageUrl)
-            .NotEmpty()
-            .WithMessage(DomainExceptions.Empty(nameof(Course.ImageUrl)));
+            .NotEmptyAndNotLongerThan(
+                nameof(Course.ImageUrl),
+                Course.MaxCourseImageUrlLength
+            );
 
         RuleFor(c => c.Price)
             .LessThan(0)
@@ -42,14 +48,10 @@ public class CourseValidator : AbstractValidator<Course>
             .WithMessage("Discount price should not be negative");
 
         RuleFor(c => c.Language)
-            .NotEmpty()
-            .WithMessage(DomainExceptions.Empty(nameof(Course.Language)))
-            .MaximumLength(Course.MaxCourseLanguageLength)
-            .WithMessage(DomainExceptions.MaxLength(nameof(Course.Language), Course.MaxCourseLanguageLength));
+            .IsLanguageValid();
 
         RuleFor(c => c.Level)
-            .Must(level => Enum.IsDefined(typeof(Levels), level))
-            .WithMessage("Invalid level value");
+            .IsLevelValid();
            
     }
 }

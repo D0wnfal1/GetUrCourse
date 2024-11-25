@@ -12,10 +12,17 @@ public class StudentConfiguration : IEntityTypeConfiguration<Student>
         builder.Property(u => u.FullName)
             .IsRequired()
             .HasMaxLength(Student.MaxFullNameLength);
+        
         builder.HasMany(u => u.Courses)
-            .WithMany(c => c.Students);
+            .WithMany(c => c.Students)
+            .UsingEntity(j => j.ToTable("StudentCourses"));
+        
         builder.HasMany<CourseComment>()
             .WithOne(cc => cc.Student)
             .HasForeignKey(cc => cc.StudentId);
+        
+        builder.HasMany(s => s.Subscriptions)
+            .WithMany(s => s.Students)
+            .UsingEntity<StudentSubscription>();
     }
 }

@@ -13,6 +13,12 @@ public class AuthorConfiguration : IEntityTypeConfiguration<Author>
             .IsRequired()
             .HasMaxLength(Author.MaxAuthorFullNameLength);
         
-        builder.Property(a => a.ImageUrl);
+        builder.Property(a => a.ImageUrl)
+            .HasMaxLength(Author.MaxAuthorFullNameLength);
+        
+        builder.HasMany(a => a.Courses)
+            .WithMany(c => c.Authors)
+            .UsingEntity(j => j.ToTable("CourseAuthors"));
+
     }
 }

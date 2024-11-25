@@ -38,7 +38,7 @@ public class CourseConfiguration : IEntityTypeConfiguration<Course>
         builder.Property(x => x.CountOfStudents);
         builder.Property(x => x.CountOfViews);
         builder.Property(x => x.CreatedAt)
-            .HasColumnType("timestamp without time zone");
+            .HasColumnType("timestamp with time zone");
 
         builder.ComplexProperty<Rating>(f => f.Rating, ratingBuilder =>
             {
@@ -48,18 +48,26 @@ public class CourseConfiguration : IEntityTypeConfiguration<Course>
                     .HasColumnName("NumberOfVotes");
             });
         builder.Property(x => x.UpdatedAt)
-            .HasColumnType("timestamp without time zone");
+            .HasColumnType("timestamp with time zone");
+        
         builder.HasMany<Author>(c => c.Authors)
             .WithMany(a => a.Courses)
             .UsingEntity(j => j.ToTable("CourseAuthors"));
+        
         builder.HasOne<Category>(c => c.Category)
             .WithMany(c => c.Courses)
             .HasForeignKey(c => c.CategoryId);
+        
         builder.HasMany<CourseModule>(c => c.Modules)
             .WithOne(m => m.Course)
             .HasForeignKey(m => m.CourseId);
+        
         builder.HasMany<CourseComment>(c => c.Comments)
             .WithOne(c => c.Course)
             .HasForeignKey(c => c.CourseId);
+        
+        builder.HasMany<Student>(c => c.Students)
+            .WithMany(s => s.Courses)
+            .UsingEntity(j => j.ToTable("StudentCourses"));
     }
 }

@@ -1,4 +1,4 @@
-using CSharpFunctionalExtensions;
+using GetUrCourse.Services.CourseAPI.Shared;
 using MediatR;
 
 namespace GetUrCourse.Services.CourseAPI.Application.Messaging;

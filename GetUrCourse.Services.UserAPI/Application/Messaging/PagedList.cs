@@ -1,5 +1,5 @@
 using System.Text.Json.Serialization;
-using CSharpFunctionalExtensions;
+using GetUrCourse.Services.UserAPI.Core.Shared;
 using Microsoft.EntityFrameworkCore;
 
 namespace GetUrCourse.Services.CourseAPI.Application.Messaging;

@@ -32,7 +32,7 @@ public class Result
 
     public static Result<TValue> Failure<TValue>(Error error) => new(default, false, error);
 
-    public static Result<TValue> Create<TValue>(TValue? value) => value is not null ? Success(value) : Failure<TValue>(Error.NullValue);
+    protected static Result<TValue> Create<TValue>(TValue? value) => value is not null ? Success(value) : Failure<TValue>(Error.NullValue);
 }
 
 

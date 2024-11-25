@@ -50,7 +50,22 @@ namespace GetUrCourse.Services.CourseAPI.Migrations
 
                     b.HasIndex("StudentsId");
 
-                    b.ToTable("CourseStudent");
+                    b.ToTable("StudentCourses", (string)null);
+                });
+
+            modelBuilder.Entity("CourseSubscription", b =>
+                {
+                    b.Property<Guid>("CoursesId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("SubscriptionsId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("CoursesId", "SubscriptionsId");
+
+                    b.HasIndex("SubscriptionsId");
+
+                    b.ToTable("CourseSubscriptions", (string)null);
                 });
 
             modelBuilder.Entity("GetUrCourse.Services.CourseAPI.Core.Models.Author", b =>
@@ -66,11 +81,8 @@ namespace GetUrCourse.Services.CourseAPI.Migrations
 
                     b.Property<string>("ImageUrl")
                         .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("ShortDescription")
-                        .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.HasKey("Id");
 
@@ -88,7 +100,8 @@ namespace GetUrCourse.Services.CourseAPI.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
 
                     b.Property<Guid?>("ParentCategoryId")
                         .HasColumnType("uuid");
@@ -121,7 +134,7 @@ namespace GetUrCourse.Services.CourseAPI.Migrations
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<decimal>("DiscountPrice")
                         .HasColumnType("numeric");
@@ -144,10 +157,9 @@ namespace GetUrCourse.Services.CourseAPI.Migrations
                     b.Property<bool>("IsUpdated")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("Language")
-                        .IsRequired()
+                    b.Property<int>("Language")
                         .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("integer");
 
                     b.Property<int>("Level")
                         .HasMaxLength(50)
@@ -174,8 +186,8 @@ namespace GetUrCourse.Services.CourseAPI.Migrations
                     b.Property<TimeSpan>("TotalDuration")
                         .HasColumnType("interval");
 
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.ComplexProperty<Dictionary<string, object>>("Rating", "GetUrCourse.Services.CourseAPI.Core.Models.Course.Rating#Rating", b1 =>
                         {
@@ -207,10 +219,13 @@ namespace GetUrCourse.Services.CourseAPI.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("IsUpdated")
                         .HasColumnType("boolean");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("integer");
 
                     b.Property<Guid>("StudentId")
                         .HasColumnType("uuid");
@@ -221,7 +236,7 @@ namespace GetUrCourse.Services.CourseAPI.Migrations
                         .HasColumnType("character varying(1000)");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
@@ -285,42 +300,62 @@ namespace GetUrCourse.Services.CourseAPI.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.ToTable("Students");
                 });
 
-            modelBuilder.Entity("GetUrCourse.Services.CourseAPI.Infrastructure.Data.RatingEntity", b =>
+            modelBuilder.Entity("GetUrCourse.Services.CourseAPI.Core.Models.StudentSubscription", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("CourseId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("FilmId")
-                        .HasColumnType("uuid");
-
-                    b.Property<double>("RatingNumber")
-                        .HasColumnType("double precision");
-
                     b.Property<Guid>("StudentId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
+                    b.Property<int>("SubscriptionId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<TimeSpan?>("RemainingTime")
+                        .HasColumnType("interval");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.HasKey("StudentId", "SubscriptionId");
+
+                    b.HasIndex("SubscriptionId");
+
+                    b.ToTable("StudentSubscription");
+                });
+
+            modelBuilder.Entity("GetUrCourse.Services.CourseAPI.Core.Models.Subscription", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CourseId");
-
-                    b.HasIndex("StudentId");
-
-                    b.ToTable("Ratings");
+                    b.ToTable("Subscriptions");
                 });
 
             modelBuilder.Entity("AuthorCourse", b =>
@@ -353,12 +388,27 @@ namespace GetUrCourse.Services.CourseAPI.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("CourseSubscription", b =>
+                {
+                    b.HasOne("GetUrCourse.Services.CourseAPI.Core.Models.Course", null)
+                        .WithMany()
+                        .HasForeignKey("CoursesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GetUrCourse.Services.CourseAPI.Core.Models.Subscription", null)
+                        .WithMany()
+                        .HasForeignKey("SubscriptionsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("GetUrCourse.Services.CourseAPI.Core.Models.Category", b =>
                 {
                     b.HasOne("GetUrCourse.Services.CourseAPI.Core.Models.Category", "ParentCategory")
                         .WithMany("SubCategories")
                         .HasForeignKey("ParentCategoryId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("ParentCategory");
                 });
@@ -404,23 +454,23 @@ namespace GetUrCourse.Services.CourseAPI.Migrations
                     b.Navigation("Course");
                 });
 
-            modelBuilder.Entity("GetUrCourse.Services.CourseAPI.Infrastructure.Data.RatingEntity", b =>
+            modelBuilder.Entity("GetUrCourse.Services.CourseAPI.Core.Models.StudentSubscription", b =>
                 {
-                    b.HasOne("GetUrCourse.Services.CourseAPI.Core.Models.Course", "Course")
-                        .WithMany()
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("GetUrCourse.Services.CourseAPI.Core.Models.Student", "Student")
-                        .WithMany()
+                        .WithMany("StudentSubscriptions")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Course");
+                    b.HasOne("GetUrCourse.Services.CourseAPI.Core.Models.Subscription", "Subscription")
+                        .WithMany("StudentSubscriptions")
+                        .HasForeignKey("SubscriptionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Student");
+
+                    b.Navigation("Subscription");
                 });
 
             modelBuilder.Entity("GetUrCourse.Services.CourseAPI.Core.Models.Category", b =>
@@ -435,6 +485,16 @@ namespace GetUrCourse.Services.CourseAPI.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("Modules");
+                });
+
+            modelBuilder.Entity("GetUrCourse.Services.CourseAPI.Core.Models.Student", b =>
+                {
+                    b.Navigation("StudentSubscriptions");
+                });
+
+            modelBuilder.Entity("GetUrCourse.Services.CourseAPI.Core.Models.Subscription", b =>
+                {
+                    b.Navigation("StudentSubscriptions");
                 });
 #pragma warning restore 612, 618
         }

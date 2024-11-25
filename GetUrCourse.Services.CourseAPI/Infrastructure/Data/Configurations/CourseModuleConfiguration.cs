@@ -22,6 +22,9 @@ public class CourseModuleConfiguration : IEntityTypeConfiguration<CourseModule>
             vd.Property(x => x.Duration).IsRequired();
         });
         builder.Property(x => x.CourseId).IsRequired();
-        builder.HasOne(cm => cm.Course);
+
+
+        builder.HasOne(cm => cm.Course)
+            .WithMany(c => c.Modules);
     }
 }

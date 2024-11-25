@@ -9,16 +9,24 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
     public void Configure(EntityTypeBuilder<Category> builder)
     {
         builder.HasKey(c => c.Id);
+        
         builder.Property(c => c.Title)
             .IsRequired()
             .HasMaxLength(Category.MaxCategoryTitleLength);
-        builder.Property(c => c.Description);
-        builder.HasMany(c => c.Courses);
+        
+        builder.Property(c => c.Description)
+            .IsRequired()
+            .HasMaxLength(Category.MaxCategoryDescriptionLength);
+        
+        builder.HasMany(c => c.Courses)
+            .WithOne(c => c.Category)
+            .HasForeignKey(c => c.CategoryId);
+        
         builder.HasOne(c => c.ParentCategory)
             .WithMany(pc => pc.SubCategories)
             .IsRequired(false)
             .HasForeignKey(c => c.ParentCategoryId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
     }
     

@@ -1,6 +1,6 @@
 using FluentValidation;
-using GetUrCourse.Services.CourseAPI.Core.Exceptions;
 using GetUrCourse.Services.CourseAPI.Core.Models;
+using GetUrCourse.Services.CourseAPI.Shared;
 
 namespace GetUrCourse.Services.CourseAPI.Core.Validators;
 
@@ -9,9 +9,9 @@ public class CourseCommentValidator : AbstractValidator<CourseComment>
     public CourseCommentValidator()
     {
         RuleFor(c => c.Text)
-            .NotEmpty()
-            .WithMessage(DomainExceptions.Empty(nameof(CourseComment.Text)))
-            .MaximumLength(CourseComment.MaxCommentLength)
-            .WithMessage(DomainExceptions.MaxLength(nameof(CourseComment.Text), CourseComment.MaxCommentLength));
+            .NotEmptyAndNotLongerThan(
+                nameof(CourseComment.Text),
+                CourseComment.MaxCommentLength
+            );
     }
 }

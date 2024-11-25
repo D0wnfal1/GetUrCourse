@@ -13,9 +13,16 @@ public class CourseCommentConfiguration : IEntityTypeConfiguration<CourseComment
             .IsRequired()
             .HasMaxLength(CourseComment.MaxCommentLength);
         builder.Property(cc => cc.CreatedAt)
-            .HasColumnType("timestamp without time zone");
+            .HasColumnType("timestamp with time zone");
         builder.Property(cc => cc.UpdatedAt)
-            .HasColumnType("timestamp without time zone");
+            .HasColumnType("timestamp with time zone");
         builder.Property(cc => cc.IsUpdated);
+        
+        builder.HasOne(cc => cc.Course)
+            .WithMany(c => c.Comments)
+            .HasForeignKey(c => c.CourseId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasOne(cc => cc.Student);
     }
 }

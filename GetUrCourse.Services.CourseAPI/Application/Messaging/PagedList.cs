@@ -1,5 +1,5 @@
 using System.Text.Json.Serialization;
-using CSharpFunctionalExtensions;
+using GetUrCourse.Services.CourseAPI.Shared;
 using Microsoft.EntityFrameworkCore;
 
 namespace GetUrCourse.Services.CourseAPI.Application.Messaging;
@@ -36,7 +36,9 @@ public class PagedList<T>
         }
         catch (Exception e)
         {
-            return Result.Failure<PagedList<T>>("Error while creating paged list.");
+            return Result.Failure<PagedList<T>>(new Error(
+                "get_paged_list",
+                "Error while creating paged list."));
         }
         
     }

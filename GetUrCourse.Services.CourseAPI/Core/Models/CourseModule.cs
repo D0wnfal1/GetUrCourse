@@ -1,6 +1,5 @@
-using CSharpFunctionalExtensions;
-using GetUrCourse.Services.CourseAPI.Core.Validators;
 using GetUrCourse.Services.CourseAPI.Core.ValueObjects;
+using GetUrCourse.Services.CourseAPI.Shared;
 
 namespace GetUrCourse.Services.CourseAPI.Core.Models;
 
@@ -8,6 +7,7 @@ public class CourseModule
 {
     public const int MaxTitleLength = 100;
     public const int MaxDescriptionLength = 500;
+    public const int MaxPdfUrlLength = 255;
 
     private CourseModule() { }
     
@@ -34,19 +34,9 @@ public class CourseModule
     public Guid CourseId { get; private set; }
     public virtual Course Course { get; private set; }
     
-    private static Result<CourseModule> Validate(CourseModule module)
-    {
-        var validator = new CourseModuleValidator();
-        var result = validator.Validate(module);
-        if (!result.IsValid)
-        {
-            var errors = string.Join("; ", result.Errors.Select(e => e.ErrorMessage));
-            return Result.Failure<CourseModule>(errors);
-        }
-        return Result.Success(module);
-    }
+    
 
-    public static Result<CourseModule> AddModule(
+    public static Result<CourseModule> Create(
         string title, 
         string videoUrl,
         TimeSpan duration,
@@ -56,31 +46,29 @@ public class CourseModule
     {
         var videoDetailsResult = VideoDetails.Create(videoUrl, duration);
         if (videoDetailsResult.IsFailure)
+        {
             return Result.Failure<CourseModule>(videoDetailsResult.Error);
-        
-        var module = new CourseModule(title, videoDetailsResult.Value, description, pdfUrl, courseId);
+        }
+        var module = new CourseModule(title, videoDetailsResult.Value!, description, pdfUrl, courseId);
 
-        return Validate(module);
+        return Result.Success(module);
 
     }
 
     public Result UpdateModule(
-        string title, 
-        string videoUrl,
-        TimeSpan duration,
-        string description, 
-        string pdfUrl)
+        string? title, 
+        string? videoUrl,
+        TimeSpan? duration,
+        string? description, 
+        string? pdfUrl)
     {
-        var videoDetailsResult = VideoDetails.Create(videoUrl, duration);
-        if (videoDetailsResult.IsFailure)
-            return Result.Failure<CourseModule>(videoDetailsResult.Error);
-
-        Title = title;
-        VideoDetails = videoDetailsResult.Value;
-        Description = description;
-        PdfUrl = pdfUrl;
+        var videoDetailsResult = VideoDetails.Update(videoUrl, duration);
         
-        var validationResult = Validate(this);
-        return validationResult.IsFailure ? validationResult : Result.Success();
+        Title = title ?? Title;
+        VideoDetails = videoDetailsResult.Value ?? VideoDetails;
+        Description = description ?? Description;
+        PdfUrl = pdfUrl ?? PdfUrl;
+        
+        return Result.Success();
     }
 }

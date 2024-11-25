@@ -12,9 +12,13 @@ public class SubscriptionConfiguration : IEntityTypeConfiguration<Subscription>
         builder.Property(s => s.Title)
             .IsRequired()
             .HasMaxLength(Subscription.MaxSubscriptionTitleLength);
+        
         builder.HasMany(s => s.Courses)
-            .WithMany();
+            .WithMany(c => c.Subscriptions)
+            .UsingEntity(j => j.ToTable("CourseSubscriptions"));
+        
         builder.HasMany(s => s.Students)
-            .WithMany();
+            .WithMany(s => s.Subscriptions)
+            .UsingEntity<StudentSubscription>();
     }
 }

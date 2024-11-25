@@ -6,7 +6,6 @@ using GetUrCourse.Services.CourseAPI.Application.UseCases.Categories.Queries.Get
 using GetUrCourse.Services.CourseAPI.Application.UseCases.Comments.Commands.Update;
 using GetUrCourse.Services.CourseAPI.Application.UseCases.Courses.Commands.AddComment;
 using GetUrCourse.Services.CourseAPI.Application.UseCases.Courses.Commands.Create;
-using GetUrCourse.Services.CourseAPI.Application.UseCases.Courses.Commands.CreateCourse;
 using GetUrCourse.Services.CourseAPI.Application.UseCases.Students.Commands.AddSubscription;
 using GetUrCourse.Services.CourseAPI.Application.UseCases.Students.Commands.Create;
 using GetUrCourse.Services.CourseAPI.Application.UseCases.Subscriptions.Commands.Create;

@@ -1,5 +1,4 @@
 using FluentValidation;
-using GetUrCourse.Services.CourseAPI.Application.UseCases.Courses.Commands.CreateCourse;
 using GetUrCourse.Services.CourseAPI.Core.Exceptions;
 using GetUrCourse.Services.CourseAPI.Core.Models;
 using GetUrCourse.Services.CourseAPI.Infrastructure.Data;

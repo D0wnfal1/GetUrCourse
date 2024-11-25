@@ -1,8 +1,6 @@
 using GetUrCourse.Services.CourseAPI.Application.Messaging;
-using GetUrCourse.Services.CourseAPI.Core.Models;
 using GetUrCourse.Services.CourseAPI.Infrastructure.Data;
 using GetUrCourse.Services.CourseAPI.Shared;
-using Microsoft.EntityFrameworkCore;
 
 namespace GetUrCourse.Services.CourseAPI.Application.UseCases.Comments.Commands.Update;
 
@@ -13,7 +11,8 @@ public class UpdateCommentCommandHandler(CourseDbContext context) : ICommandHand
         await using var transaction = await context.Database.BeginTransactionAsync(cancellationToken);
         try
         {
-            var comment = await context.CourseComments.FindAsync(
+            var comment = await context.CourseComments
+                .FindAsync(
                 [request.Id] ,cancellationToken: cancellationToken);
         
             if (comment is null)
@@ -24,11 +23,19 @@ public class UpdateCommentCommandHandler(CourseDbContext context) : ICommandHand
                 request.Text,
                 request.Rating);
 
-            await context.Courses
-                .ExecuteUpdateAsync(setter =>
-                        setter.SetProperty(x => x.Rating,
-                                x => x.Rating.Update(comment.Rating, request.Rating)),
-                    cancellationToken: cancellationToken);
+            var course = await context.Courses
+                .FindAsync(
+                [comment.CourseId] ,cancellationToken: cancellationToken);
+
+            if (course is null)
+            {
+                await transaction.RollbackAsync(cancellationToken);
+                return ValidationResult<UpdateCommentCommand>.WithError(
+                    new Error("course_not_found", "Course not found"));
+            }
+               
+
+            course.Rating.Update(comment.Rating, request.Rating);
 
             await context.SaveChangesAsync(cancellationToken);
             await transaction.CommitAsync(cancellationToken);

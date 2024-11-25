@@ -22,6 +22,7 @@ public class CreateCommentCommandHandler(CourseDbContext context) : ICommandHand
 
             if (comment.IsFailure)
             {
+                await transaction.RollbackAsync(cancellationToken);
                 return Result.Failure(new Error("create_comment", "Problem with creating comment"));
             }
 
@@ -33,6 +34,7 @@ public class CreateCommentCommandHandler(CourseDbContext context) : ICommandHand
 
             if (course is null)
             {
+                await transaction.RollbackAsync(cancellationToken);
                 return Result.Failure(new Error("create_comment", "Problem with updating course rating"));
             }
 

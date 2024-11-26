@@ -16,9 +16,9 @@ public class User
     private User(
         UserName name,
         string email, 
-        Role role)
+        Role role, Guid id)
     {
-        Id = Guid.NewGuid();
+        Id = id;
         Email = email;
         Name = name;
         CreatedAt = DateTime.Now;
@@ -47,9 +47,9 @@ public class User
     public static Result<User> Create(
         UserName name,
         string email,
-        Role role)
+        Role role, Guid id)
     {
-        var user = new User(name, email, role);
+        var user = new User(name, email, role, id);
         return Result.Success(user);
     }
     

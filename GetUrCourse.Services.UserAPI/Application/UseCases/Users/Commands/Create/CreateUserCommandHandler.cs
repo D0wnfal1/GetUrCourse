@@ -9,7 +9,7 @@ public class CreateUserCommandHandler(UserDbContext context) : ICommandHandler<C
 {
     public async Task<Result<UserCreateResponse>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
-        var user = User.Create(request.Name, request.Email, request.Role);
+        var user = User.Create(request.Name, request.Email, request.Role, request.Id);
 
         if (user.IsFailure)
         {

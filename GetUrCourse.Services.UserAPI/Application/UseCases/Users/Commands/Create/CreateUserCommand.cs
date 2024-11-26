@@ -7,5 +7,6 @@ namespace GetUrCourse.Services.UserAPI.Application.UseCases.Users.Commands.Creat
 public record CreateUserCommand(
     UserName Name,
     string Email,
-    Role Role
+    Role Role,
+    Guid Id
 ) : ICommand<UserCreateResponse>;

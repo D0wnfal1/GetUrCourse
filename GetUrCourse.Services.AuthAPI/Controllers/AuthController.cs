@@ -1,5 +1,7 @@
 ﻿using GetUrCourse.Services.AuthAPI.DTOs;
+using GetUrCourse.Services.AuthAPI.ProducerMessage;
 using GetUrCourse.Services.AuthAPI.Services;
+using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GetUrCourse.Services.AuthAPI.Controllers
@@ -9,10 +11,12 @@ namespace GetUrCourse.Services.AuthAPI.Controllers
     public class AuthController : ControllerBase
     {
         private readonly AuthService _authService;
+        private readonly ITopicProducer<UserRegistrationMessage> _producer;
 
-        public AuthController(AuthService authService)
+        public AuthController(AuthService authService, ITopicProducer<UserRegistrationMessage> producer)
         {
             _authService = authService;
+            _producer = producer;
         }
 
         /// <summary>
@@ -29,6 +33,15 @@ namespace GetUrCourse.Services.AuthAPI.Controllers
             {
                 return BadRequest(errorMessage);
             }
+
+            UserRegistrationMessage message = new UserRegistrationMessage()
+            {
+                Id = Guid.Parse(user.Id),
+                Email = user.Email,
+                Name = user.Name
+            };
+
+            await _producer.Produce(message);
 
             return Ok(user);
         }

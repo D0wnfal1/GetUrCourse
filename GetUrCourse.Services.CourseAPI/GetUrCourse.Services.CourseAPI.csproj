@@ -40,7 +40,7 @@
       <Folder Include="Application\UseCases\Subscriptions\Commands\Update\" />
       <Folder Include="Application\UseCases\Subscriptions\Queries\GetAll\" />
       <Folder Include="Application\UseCases\Subscriptions\Queries\GetById\" />
-      <Folder Include="Extensions\" />
+      <Folder Include="Migrations\" />
     </ItemGroup>
 
 </Project>

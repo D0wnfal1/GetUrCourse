@@ -11,8 +11,8 @@ public class CourseDbContext(DbContextOptions<CourseDbContext> options) : DbCont
     public DbSet<Student> Students { get; set; }
     public DbSet<Category> Categories { get; set; }
     public DbSet<CourseModule> CourseModules { get; set; }
-    // public DbSet<RatingEntity> Ratings { get; set; }
     public DbSet<Subscription> Subscriptions { get; set; }
+    public DbSet<StudentSubscription> StudentSubscriptions { get; set; }
     
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -13,6 +13,13 @@ public class SubscriptionConfiguration : IEntityTypeConfiguration<Subscription>
             .IsRequired()
             .HasMaxLength(Subscription.MaxSubscriptionTitleLength);
         
+        builder.Property(s => s.Price)
+            .HasColumnType("numeric")
+            .IsRequired();
+
+        builder.Property(s => s.DiscountPrice)
+            .HasColumnType("numeric");
+        
         builder.HasMany(s => s.Courses)
             .WithMany(c => c.Subscriptions)
             .UsingEntity(j => j.ToTable("CourseSubscriptions"));

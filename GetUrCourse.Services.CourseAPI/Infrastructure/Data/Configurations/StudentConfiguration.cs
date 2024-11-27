@@ -9,6 +9,8 @@ public class StudentConfiguration : IEntityTypeConfiguration<Student>
     public void Configure(EntityTypeBuilder<Student> builder)
     {
         builder.HasKey(u => u.Id);
+        builder.HasIndex(u => u.FullName);
+        
         builder.Property(u => u.FullName)
             .IsRequired()
             .HasMaxLength(Student.MaxFullNameLength);

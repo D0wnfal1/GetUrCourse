@@ -9,7 +9,7 @@ public class AddSubscriptionToStudentCommandHandler(CourseDbContext context) : I
 {
     public async Task<Result> Handle(AddSubscriptionToStudentCommand request, CancellationToken cancellationToken)
     {
-        var studentSubscription = StudentSubscription.Create(request.Id, request.SubscriptionId, request.Duration);
+        var studentSubscription = StudentSubscription.Create(request.StudentId, request.SubscriptionId, request.Duration);
 
         if (studentSubscription.IsFailure)
         {

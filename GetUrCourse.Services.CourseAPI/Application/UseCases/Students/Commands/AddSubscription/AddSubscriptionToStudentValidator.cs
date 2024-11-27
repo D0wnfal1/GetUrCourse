@@ -10,7 +10,7 @@ public class AddSubscriptionToStudentValidator: AbstractValidator<AddSubscriptio
 {
     public AddSubscriptionToStudentValidator(CourseDbContext context)
     {
-        RuleFor(x => x.Id)
+        RuleFor(x => x.StudentId)
             .NotEmpty()
             .WithMessage(DomainExceptions.Empty(nameof(Student.Id)))
             .IsStudentExist(context);

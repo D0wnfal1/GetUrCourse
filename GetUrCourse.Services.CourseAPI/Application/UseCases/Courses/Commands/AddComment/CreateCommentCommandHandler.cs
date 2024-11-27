@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Dynamic;
 using GetUrCourse.Services.CourseAPI.Application.Messaging;
 using GetUrCourse.Services.CourseAPI.Core.Models;
 using GetUrCourse.Services.CourseAPI.Infrastructure.Data;
@@ -22,31 +23,33 @@ public class CreateCommentCommandHandler(CourseDbContext context) : ICommandHand
 
             if (comment.IsFailure)
             {
-                await transaction.RollbackAsync(cancellationToken);
                 return Result.Failure(new Error("create_comment", "Problem with creating comment"));
             }
-
+            
             await context.CourseComments.AddAsync(comment.Value!, cancellationToken);
-
-            var course = await context.Courses
-                .Where(c => c.Id == request.CourseId)
-                .FirstOrDefaultAsync(cancellationToken);
-
-            if (course is null)
-            {
-                await transaction.RollbackAsync(cancellationToken);
-                return Result.Failure(new Error("create_comment", "Problem with updating course rating"));
-            }
-
-            course.Rating.Add(request.Rating);
-
+            
             await context.SaveChangesAsync(cancellationToken);
+
+            await context.Courses
+                    .Where(x => x.Id == request.CourseId)
+                    .Select(c => new
+                    {
+                        Course = c,
+                        NewRating = c.Comments.Average(cc => cc.Rating),
+                        NewCount = c.Comments.Count
+                    })
+                    .ExecuteUpdateAsync(setter => setter
+                        .SetProperty(c => c.Course.Rating.Value, c => c.NewRating)
+                        .SetProperty(c => c.Course.Rating.Count, c => c.NewCount),
+                    
+                    cancellationToken: cancellationToken);
+            
             await transaction.CommitAsync(cancellationToken);
         }
         catch (Exception e)
         {
             await transaction.RollbackAsync(cancellationToken);
-            return Result.Failure(new Error("create_comment", "Problem with creating comment"));
+            return Result.Failure(new Error("create_comment", "Problem with creating comment" + e.Message));
         }
 
         return Result.Success();

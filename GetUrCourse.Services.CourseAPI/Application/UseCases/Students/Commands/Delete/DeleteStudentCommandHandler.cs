@@ -17,13 +17,12 @@ public class DeleteStudentCommandHandler(CourseDbContext context) : ICommandHand
                 .ExecuteDeleteAsync(cancellationToken: cancellationToken);
 
             await transaction.CommitAsync(cancellationToken);
+            return Result.Success();
         }
         catch (Exception e)
         {
             await transaction.RollbackAsync(cancellationToken);
             return Result.Failure(new Error("delete_student", "Problem with deleting" + e.Message));
         }
-
-        return Result.Success();
     }
 }

@@ -34,7 +34,6 @@ public class QueryCachingBehavior<TRequest, TResponse>(ICachingService cache, IL
         }
 
         return response;
-
     }
 }
 

@@ -9,6 +9,8 @@ public class CourseCommentConfiguration : IEntityTypeConfiguration<CourseComment
     public void Configure(EntityTypeBuilder<CourseComment> builder)
     {
         builder.HasKey(cc => cc.Id);
+        builder.HasIndex(cc => cc.CourseId);
+        
         builder.Property(cc => cc.Text)
             .IsRequired()
             .HasMaxLength(CourseComment.MaxCommentLength);

@@ -10,6 +10,9 @@ public class CourseConfiguration : IEntityTypeConfiguration<Course>
     public void Configure(EntityTypeBuilder<Course> builder)
     {
         builder.HasKey(x => x.Id);
+        builder.HasIndex(x => x.Title)
+            .IsUnique();
+        
         builder.Property(x => x.Title)
             .IsRequired()
             .HasMaxLength(Course.MaxCourseTitleLength);

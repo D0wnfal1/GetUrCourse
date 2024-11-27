@@ -15,14 +15,14 @@ public class DeleteAuthorCommandHandler(CourseDbContext context) : ICommandHandl
             await context.Authors
                 .Where(a => a.Id == request.Id)
                 .ExecuteDeleteAsync(cancellationToken: cancellationToken);
+            
             await transaction.CommitAsync(cancellationToken);
+            return Result.Success();
         }
         catch (Exception e)
         {
             await transaction.RollbackAsync(cancellationToken);
             return Result.Failure(new Error("delete_author", "Problem with deleting " + e.Message));
         }
-
-        return Result.Success();
     }
 }

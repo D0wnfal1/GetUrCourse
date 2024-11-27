@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email from GetUrCourse</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', Arial, sans-serif;
+            background-color: #f9f9f9;
+        }
+
+        .email-wrapper {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background-color: #4285f4;
+            padding: 20px;
+            text-align: center;
+            color: #ffffff;
+            font-size: 28px;
+            font-weight: bold;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+
+        .content {
+            padding: 30px;
+            color: #333333;
+        }
+
+        .customer-details {
+            font-size: 16px;
+            color: #333333;
+            margin-bottom: 20px;
+        }
+
+        .customer-details p {
+            margin: 5px 0;
+        }
+
+        .product-list img {
+            max-width: 100px;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        .product-details span {
+            margin-left: 10px;
+            font-size: 14px;
+        }
+
+        .confirmation-button {
+            display: block;
+            width: 100%;
+            max-width: 200px;
+            margin: 20px auto;
+            padding: 10px 20px;
+            text-align: center;
+            background-color: #4285f4;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+
+        .confirmation-button:hover {
+            background-color: #357ae8;
+        }
+
+        .footer {
+            background-color: #4285f4;
+            padding: 15px;
+            text-align: center;
+            color: #ffffff;
+            font-size: 14px;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="email-wrapper">
+    <div class="header">
+        Course Register
+    </div>
+    <div class="content">
+        <div class="customer-details">
+            <p><strong>FullName:</strong> {0}</p>
+            <p><strong>Email:</strong> {1}</p>
+            <p><strong>Phone:</strong> {2}</p>
+            <p><strong>Course Name:</strong> {3}</p>
+        </div>
+        <hr style="border: none; border-top: 1px solid #e0e0e0; margin-bottom: 20px;">
+        <a href="{4}" class="confirmation-button">See details</a>
+    </div>
+    <div class="footer">
+        &copy; 2024 GetUrCourse Pavers. All rights reserved.
+    </div>
+</div>
+</body>
+
+</html>

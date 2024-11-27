@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+<div class="container">
+    <div class="chat-window">
+        <div class="chat-header">
+            <h3>Chat</h3>
+        </div>
+        <div id="messagesList" class="chat-messages"></div>
+        <div class="chat-input">
+            <input type="text" id="messageInput" placeholder="Enter a message" />
+            <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+    <div class="chat-sidebar">
+        <input type="text" id="userInput" placeholder="Enter your name" />
+        <input type="text" id="groupInput" placeholder="Enter group name" />
+        <button onclick="joinGroup()">Join Group</button>
+        <button onclick="leaveGroup()">Leave Group</button>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.7/signalr.min.js"></script>
+<script>
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/chathub")
+        .build();
+
+    connection.on("ReceiveMessage", (user, message) => {
+        const messageElement = document.createElement("div");
+        messageElement.className = "message";
+        messageElement.innerHTML = `<b>${user}:</b> ${message}`;
+        document.getElementById("messagesList").appendChild(messageElement);
+    });
+
+    connection.on("ReceiveMessageHistory", (messages) => {
+        const messagesList = document.getElementById("messagesList");
+        messagesList.innerHTML = '';
+        messages.forEach(msg => {
+            const messageElement = document.createElement("div");
+            messageElement.className = "message";
+            messageElement.innerHTML = `<b>${msg.user}:</b> ${msg.text}`;
+            messagesList.appendChild(messageElement);
+        });
+    });
+
+    connection.start().catch(err => console.error(err.toString()));
+
+    function joinGroup() {
+        const group = document.getElementById("groupInput").value;
+        connection.invoke("JoinGroup", group).catch(err => console.error(err.toString()));
+    }
+
+    function leaveGroup() {
+        const group = document.getElementById("groupInput").value;
+        connection.invoke("LeaveGroup", group).catch(err => console.error(err.toString()));
+    }
+
+    function sendMessage() {
+        const user = document.getElementById("userInput").value;
+        const group = document.getElementById("groupInput").value;
+        const message = document.getElementById("messageInput").value;
+        connection.invoke("SendMessage", user, group, message).catch(err => console.error(err.toString()));
+        document.getElementById("messageInput").value = '';
+    }
+</script>
+</body>
+</html>

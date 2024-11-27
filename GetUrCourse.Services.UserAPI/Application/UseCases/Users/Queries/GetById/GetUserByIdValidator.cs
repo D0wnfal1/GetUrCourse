@@ -10,7 +10,6 @@ public class GetUserByIdValidator : AbstractValidator<GetUserByIdQuery>
     {
         RuleFor(x => x.Id)
             .NotEmpty()
-            .WithMessage("UserId is required")
-            .IsUserExist(context);
+            .WithMessage("UserId is required");
     }
 }

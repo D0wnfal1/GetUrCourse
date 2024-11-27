@@ -21,7 +21,7 @@ public class GetUserByEmailQueryHandler(UserDbContext context) : IQueryHandler<G
         if (user is null)
         {
             return Result.Failure<UserShortResponse>(new Error(
-                "get_user_byid",
+                "get_user_by_email",
                 "Problem with getting user from database"));
         }
 

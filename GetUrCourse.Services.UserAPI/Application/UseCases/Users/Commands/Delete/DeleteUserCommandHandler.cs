@@ -15,13 +15,16 @@ public class DeleteUserCommandHandler(UserDbContext context) : ICommandHandler<D
             await context.Users
                 .Where(u => u.Id == request.Id)
                 .ExecuteDeleteAsync(cancellationToken);
+            
+            await transaction.CommitAsync(cancellationToken);
+            
+            return Result.Success();
         }
         catch (Exception e)
         {
             await transaction.RollbackAsync(cancellationToken);
-            return Result.Failure(new Error("delete_user",e.Message));;
+            
+            return Result.Failure(new Error("delete_user",e.Message));
         }
-        
-        return Result.Success();
     }
 }

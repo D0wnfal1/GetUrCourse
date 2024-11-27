@@ -11,8 +11,6 @@ public class GetUserByEmailValidator : AbstractValidator<GetUserByEmailQuery>
         RuleFor(x => x.Email)
             .NotEmpty()
             .EmailAddress()
-            .MustAsync(async (email, token) =>
-                await context.Users.AnyAsync(u => u.Email == email, cancellationToken: token))
-            .WithMessage("User not found");
+            .WithMessage("Email is not valid");
     }
 }

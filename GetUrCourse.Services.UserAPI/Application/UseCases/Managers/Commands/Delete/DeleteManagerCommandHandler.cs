@@ -15,6 +15,10 @@ public class DeleteManagerCommandHandler(UserDbContext context) : ICommandHandle
             await context.Managers
                 .Where(u => u.UserId == request.Id)
                 .ExecuteDeleteAsync(cancellationToken);
+            
+            await transaction.CommitAsync(cancellationToken);
+            
+            return Result.Success();
         }
         catch (Exception e)
         {
@@ -22,7 +26,5 @@ public class DeleteManagerCommandHandler(UserDbContext context) : ICommandHandle
             
             return Result.Failure(new Error("delete_manager",e.Message));
         }
-        
-        return Result.Success();
     }
 }

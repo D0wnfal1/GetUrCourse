@@ -37,7 +37,6 @@
 
     <ItemGroup>
       <Folder Include="Application\UseCases\Managers\Commands\Update\" />
-      <Folder Include="Application\UseCases\Users\Queries\GetAll\" />
     </ItemGroup>
 
 </Project>

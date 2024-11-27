@@ -13,8 +13,7 @@ public class UpdateUserValidation : AbstractValidator<UpdateUserCommand>
     {
         RuleFor(x => x.Id)
             .NotEmpty()
-            .WithMessage("Id is required")
-            .IsUserExist(context);
+            .WithMessage("Id is required");
         
         RuleFor(x => x.Email)
             .EmailAddress()

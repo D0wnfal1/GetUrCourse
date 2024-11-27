@@ -3,17 +3,17 @@ using GetUrCourse.Services.UserAPI.Core.Shared;
 using GetUrCourse.Services.UserAPI.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace GetUrCourse.Services.UserAPI.Application.UseCases.Authors.Commands.Delete;
+namespace GetUrCourse.Services.UserAPI.Application.UseCases.Reviews.Commands.Delete;
 
-public class DeleteAuthorCommandHandler(UserDbContext context) : ICommandHandler<DeleteAuthorCommand>
+public class DeleteReviewCommandHandler(UserDbContext context) : ICommandHandler<DeleteReviewCommand>
 {
-    public async Task<Result> Handle(DeleteAuthorCommand request, CancellationToken cancellationToken)
+    public async Task<Result> Handle(DeleteReviewCommand request, CancellationToken cancellationToken)
     {
         await using var transaction = await context.Database.BeginTransactionAsync(cancellationToken);
         try
         {
-            await context.Authors
-                .Where(u => u.UserId == request.Id)
+            await context.Reviews
+                .Where(r => r.Id == request.Id)
                 .ExecuteDeleteAsync(cancellationToken);
             
             await transaction.CommitAsync(cancellationToken);
@@ -22,8 +22,7 @@ public class DeleteAuthorCommandHandler(UserDbContext context) : ICommandHandler
         catch (Exception e)
         {
             await transaction.RollbackAsync(cancellationToken);
-            
-            return Result.Failure(new Error("delete_author",e.Message));
+            return Result.Failure(new Error("delete_review",e.Message));
         }
     }
 }

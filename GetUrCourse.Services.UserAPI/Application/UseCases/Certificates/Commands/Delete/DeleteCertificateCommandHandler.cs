@@ -15,13 +15,14 @@ public class DeleteCertificateCommandHandler(UserDbContext context) : ICommandHa
             await context.Certificates
                 .Where(u => u.StudentId == request.Id)
                 .ExecuteDeleteAsync(cancellationToken);
+            
+            await transaction.CommitAsync(cancellationToken);
+            return Result.Success();
         }
         catch (Exception e)
         {
             await transaction.RollbackAsync(cancellationToken);
             return Result.Failure(new Error("delete_certificate",e.Message));
         }
-        
-        return Result.Success();
     }
 }

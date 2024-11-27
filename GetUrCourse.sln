@@ -22,6 +22,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetUrCourse.Services.TaskAP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetUrCourse.Services.UserAPI", "GetUrCourse.Services.UserAPI\GetUrCourse.Services.UserAPI.csproj", "{E2C72523-55A9-49EF-92ED-2FBDC752FF40}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetUrCourse.Services.NotificationAPI", "GetUrCourse.Services.NotificationAPI\GetUrCourse.Services.NotificationAPI.csproj", "{975214E4-CAD7-4003-9B6A-D7D4AB3F33B3}"
+EndProject
 
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,6 +56,10 @@ Global
 		{E2C72523-55A9-49EF-92ED-2FBDC752FF40}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0454D285-CF31-4790-98EF-4B0B0019BD3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0454D285-CF31-4790-98EF-4B0B0019BD3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{975214E4-CAD7-4003-9B6A-D7D4AB3F33B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{975214E4-CAD7-4003-9B6A-D7D4AB3F33B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{975214E4-CAD7-4003-9B6A-D7D4AB3F33B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{975214E4-CAD7-4003-9B6A-D7D4AB3F33B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +73,7 @@ Global
 		{3465E3F7-514A-42E4-93F7-827655B840C5} = {0311D5D2-FEE4-4F75-AEBF-5B32A06EB171}
 		{E2C72523-55A9-49EF-92ED-2FBDC752FF40} = {0311D5D2-FEE4-4F75-AEBF-5B32A06EB171}
 		{0454D285-CF31-4790-98EF-4B0B0019BD3B} = {0311D5D2-FEE4-4F75-AEBF-5B32A06EB171}
+		{975214E4-CAD7-4003-9B6A-D7D4AB3F33B3} = {0311D5D2-FEE4-4F75-AEBF-5B32A06EB171}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A29657BA-E9BF-4A11-AC3B-2C7B9BCD1F02}

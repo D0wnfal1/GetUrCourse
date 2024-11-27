@@ -14,7 +14,6 @@ var configuration = builder.Configuration
     .AddDotNetEnv(".env", LoadOptions.TraversePath())
     .Build();
 
-
 services.AddDbContext<CourseDbContext>(options =>
 {
     options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));

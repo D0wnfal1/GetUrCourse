@@ -8,7 +8,7 @@ public class Rating : ValueObject
     private Rating(double value)
     {
         Value = value;
-        Count = 1;
+        Count = 0;
     }
 
     public double Value { get; private set;}

@@ -9,7 +9,11 @@ public class CreateSubscriptionCommandHandler(CourseDbContext context) : IComman
 {
     public async Task<Result> Handle(CreateSubscriptionCommand request, CancellationToken cancellationToken)
     {
-        var subscription = Subscription.Create(request.Title, request.Description);
+        var subscription = Subscription.Create(
+            request.Title,
+            request.Description,
+            request.Price,
+            request.DiscountPrise);
 
         if (subscription.IsFailure)
         {
@@ -17,6 +21,7 @@ public class CreateSubscriptionCommandHandler(CourseDbContext context) : IComman
         }
         
         await context.Subscriptions.AddAsync(subscription.Value!, cancellationToken);
+        
         await context.SaveChangesAsync(cancellationToken);
         return Result.Success();
     }

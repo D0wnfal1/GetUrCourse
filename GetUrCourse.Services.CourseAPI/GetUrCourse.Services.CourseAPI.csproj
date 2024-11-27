@@ -30,13 +30,6 @@
 
     <ItemGroup>
       <Folder Include="Application\UseCases\Authors\Queries\" />
-      <Folder Include="Application\UseCases\Courses\Queries\GetCoursesBySubscription\" />
-      <Folder Include="Application\UseCases\Students\Queries\" />
-      <Folder Include="Application\UseCases\Subscriptions\Commands\Delete\" />
-      <Folder Include="Application\UseCases\Subscriptions\Commands\Update\" />
-      <Folder Include="Application\UseCases\Subscriptions\Queries\GetAll\" />
-      <Folder Include="Application\UseCases\Subscriptions\Queries\GetById\" />
-      <Folder Include="Extensions\" />
     </ItemGroup>
 
 </Project>

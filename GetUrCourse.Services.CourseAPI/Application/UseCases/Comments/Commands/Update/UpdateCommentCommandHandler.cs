@@ -13,33 +13,40 @@ public class UpdateCommentCommandHandler(CourseDbContext context) : ICommandHand
         await using var transaction = await context.Database.BeginTransactionAsync(cancellationToken);
         try
         {
-            var comment = await context.CourseComments.FindAsync(
-                [request.Id] ,cancellationToken: cancellationToken);
-        
+            var comment = await context.CourseComments
+                .FindAsync(
+                [request.Id], cancellationToken: cancellationToken);
+
             if (comment is null)
                 return ValidationResult<UpdateCommentCommand>.WithError(
                     new Error("comment_not_found", "Comment not found"));
-        
+            
             comment.Update(
                 request.Text,
                 request.Rating);
-
-            await context.Courses
-                .ExecuteUpdateAsync(setter =>
-                        setter.SetProperty(x => x.Rating,
-                                x => x.Rating.Update(comment.Rating, request.Rating)),
-                    cancellationToken: cancellationToken);
-
+            
             await context.SaveChangesAsync(cancellationToken);
+            
+            await context.Courses
+                .Select(c => new
+                {
+                    Course = c,
+                    NewRating = c.Comments.Average(cc => cc.Rating),
+                    NewCount = c.Comments.Count
+                })
+                .ExecuteUpdateAsync(setter => setter
+                        .SetProperty(c => c.Course.Rating.Value, c => c.NewRating)
+                        .SetProperty(c => c.Course.Rating.Count, c => c.NewCount),
+                    
+                    cancellationToken: cancellationToken);
+            
             await transaction.CommitAsync(cancellationToken);
+            return Result.Success();
         }
         catch (Exception e)
         {
             await transaction.RollbackAsync(cancellationToken);
             return Result.Failure(new Error("update_comment", "Problem with updating" + e.Message));
         }
-        
-        
-        return Result.Success();
     }
 }

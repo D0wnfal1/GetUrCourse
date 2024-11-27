@@ -13,17 +13,29 @@ public class DeleteCommentCommandHandler(CourseDbContext context) : ICommandHand
         try
         {
             await context.CourseComments
-                .Where(a => a.Id == request.Id)
+                .Where(c => c.Id == request.Id)
                 .ExecuteDeleteAsync(cancellationToken: cancellationToken);
-
+            
+            await context.Courses
+                .Select(c => new
+                {
+                    Course = c,
+                    NewRating = c.Comments.Average(cc => cc.Rating),
+                    NewCount = c.Comments.Count
+                })
+                .ExecuteUpdateAsync(setter => setter
+                        .SetProperty(c => c.Course.Rating.Value, c => c.NewRating)
+                        .SetProperty(c => c.Course.Rating.Count, c => c.NewCount),
+                    
+                    cancellationToken: cancellationToken);
+            
             await transaction.CommitAsync(cancellationToken);
+            return Result.Success();
         }
         catch (Exception e)
         {
             await transaction.RollbackAsync(cancellationToken);
             return Result.Failure(new Error("delete_comment", "Problem with deleting" + e.Message));
         }
-
-        return Result.Success();
     }
 }

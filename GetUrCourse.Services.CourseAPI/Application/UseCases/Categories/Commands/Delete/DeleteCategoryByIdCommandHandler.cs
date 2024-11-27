@@ -17,13 +17,12 @@ public class DeleteCategoryByIdCommandHandler(CourseDbContext context) : IComman
                 .ExecuteDeleteAsync(cancellationToken: cancellationToken);
 
             await transaction.CommitAsync(cancellationToken);
+            return Result.Success();
         }
         catch (Exception e)
         {
             await transaction.RollbackAsync(cancellationToken);
             return Result.Failure(new Error("delete_category", "Problem with deleting" + e.Message));
         }
-
-        return Result.Success();
     }
 }

@@ -3,10 +3,10 @@ using GetUrCourse.Services.CourseAPI.Application.UseCases.Categories.Commands.De
 using GetUrCourse.Services.CourseAPI.Application.UseCases.Categories.Commands.Update;
 using GetUrCourse.Services.CourseAPI.Application.UseCases.Categories.Queries.GetBase;
 using GetUrCourse.Services.CourseAPI.Application.UseCases.Categories.Queries.GetChildrenById;
+using GetUrCourse.Services.CourseAPI.Application.UseCases.Comments.Commands.Delete;
 using GetUrCourse.Services.CourseAPI.Application.UseCases.Comments.Commands.Update;
 using GetUrCourse.Services.CourseAPI.Application.UseCases.Courses.Commands.AddComment;
 using GetUrCourse.Services.CourseAPI.Application.UseCases.Courses.Commands.Create;
-using GetUrCourse.Services.CourseAPI.Application.UseCases.Courses.Commands.CreateCourse;
 using GetUrCourse.Services.CourseAPI.Application.UseCases.Students.Commands.AddSubscription;
 using GetUrCourse.Services.CourseAPI.Application.UseCases.Students.Commands.Create;
 using GetUrCourse.Services.CourseAPI.Application.UseCases.Subscriptions.Commands.Create;
@@ -133,6 +133,17 @@ public class CategoryController(ISender sender) : ApiController(sender)
         UpdateCommentCommand command)
     {
         var result = await Sender.Send(command);
+
+        return result.IsSuccess
+            ? Ok()
+            : HandleFailure(result);
+    }
+    
+    [HttpDelete("delete-comment/{id}")]
+    public async Task<IActionResult> DeleteComment(
+        [FromRoute] Guid id)
+    {
+        var result = await Sender.Send(new DeleteCommentCommand(id));
 
         return result.IsSuccess
             ? Ok()

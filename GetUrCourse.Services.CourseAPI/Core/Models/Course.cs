@@ -169,19 +169,27 @@ public class Course
         return Result.Success();
     }
 
-    public Result AddRating(int value)
+    public Result<Rating> AddRating(int value)
     {
         var result = Rating.Add(value);
         return result.IsFailure ? 
-            Result.Failure(result.Error) : 
-            Result.Success();
+            Result.Failure<Rating>(result.Error) : 
+            Result.Success(result.Value!);
     }
     
-    public Result RemoveRate(int value)
+    public Result<double> RemoveRate(int value)
     {
         var result = Rating.Remove(value);
         return result.IsFailure ? 
-            Result.Failure(result.Error) :
-            Result.Success();
+            Result.Failure<double>(result.Error) :
+            Result.Success(result.Value!.Value);
+    }
+    
+    public Result<double> UpdateRate(int oldValue, int newValue)
+    {
+        var result = Rating.Update(oldValue, newValue);
+        return result.IsFailure ? 
+            Result.Failure<double>(result.Error) :
+            Result.Success(result.Value!.Value);
     }
 }

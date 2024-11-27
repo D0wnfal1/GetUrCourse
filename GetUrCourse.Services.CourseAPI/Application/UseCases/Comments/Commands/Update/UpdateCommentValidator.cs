@@ -12,7 +12,7 @@ public class UpdateCommentValidator : AbstractValidator<UpdateCommentCommand>
     {
         RuleFor(x => x.Id)
             .NotEmpty()
-            .WithMessage(DomainExceptions.Empty(nameof(CourseComment.Id)));
+            .WithMessage(DomainExceptions.Empty(nameof(UpdateCommentCommand.Id)));   
         
         RuleFor(x => x.Text)
             .NotEmptyAndNotLongerThan(nameof(CourseComment), CourseComment.MaxCommentLength);

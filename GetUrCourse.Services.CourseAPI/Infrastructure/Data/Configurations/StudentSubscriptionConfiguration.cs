@@ -9,6 +9,7 @@ public class StudentSubscriptionConfiguration : IEntityTypeConfiguration<Student
     public void Configure(EntityTypeBuilder<StudentSubscription> builder)
     {
         builder.HasKey(ss => new { ss.StudentId, ss.SubscriptionId });
+        builder.HasIndex(ss => ss.Status);
 
         builder.Property(ss => ss.Status)
             .IsRequired()

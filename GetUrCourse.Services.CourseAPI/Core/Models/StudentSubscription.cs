@@ -35,6 +35,15 @@ public class StudentSubscription
         return new StudentSubscription(studentId, subscriptionId, endDate);
     }
     
+    public void Cancel()
+    {
+        if (EndDate != null)
+        {
+            RemainingTime = EndDate - DateTime.UtcNow;
+        }
+        Status = SubscriptionStatus.Canceled;
+    }
+    
     public void Suspend()
     {
         if (EndDate != null)

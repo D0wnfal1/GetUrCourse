@@ -12,7 +12,6 @@ public class GetChildrenCategoriesByIdValidator : AbstractValidator<GetChildrenC
     {
         RuleFor(c => c.Id)
             .NotEmpty()
-            .WithMessage(DomainExceptions.Empty(nameof(Category.Id)))
-            .IsCategoryExist(context);
+            .WithMessage(DomainExceptions.Empty(nameof(Category.Id)));
     }
 }

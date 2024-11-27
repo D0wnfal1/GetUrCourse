@@ -1,11 +1,10 @@
 using FluentValidation;
 using GetUrCourse.Services.CourseAPI.Application.Messaging;
-using GetUrCourse.Services.CourseAPI.Application.UseCases.Courses.Commands.Create;
 using GetUrCourse.Services.CourseAPI.Core.Models;
 using GetUrCourse.Services.CourseAPI.Infrastructure.Data;
 using GetUrCourse.Services.CourseAPI.Shared;
 
-namespace GetUrCourse.Services.CourseAPI.Application.UseCases.Courses.Commands.CreateCourse;
+namespace GetUrCourse.Services.CourseAPI.Application.UseCases.Courses.Commands.Create;
 
 public class CreateCourseCommandHandler(CourseDbContext context, IValidator<CreateCourseCommand> validator) : ICommandHandler<CreateCourseCommand>
 {

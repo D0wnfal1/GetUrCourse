@@ -14,7 +14,6 @@ var configuration = builder.Configuration
     .AddDotNetEnv(".env", LoadOptions.TraversePath())
     .Build();
 
-var secrets = await DopplerClient.FetchSecretsAsync(configuration);
 
 services.AddDbContext<CourseDbContext>(options =>
 {

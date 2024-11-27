@@ -21,7 +21,7 @@ public class UpdateCategoryByIdCommandHandler(CourseDbContext context) : IComman
                     "Category not found"));
         }
         
-        category!.Update(
+        category.Update(
             request.Title,
             request.Description,
             request.ParentCategoryId);

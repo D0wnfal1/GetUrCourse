@@ -150,6 +150,17 @@ public static class CustomValidator
             .WithMessage("Level is not valid");
     }
     
+    
+    public static IRuleBuilderOptions<T, SubscriptionStatus> IsStatusValid<T>(
+        this IRuleBuilder<T, SubscriptionStatus> ruleBuilder)
+    {
+        return ruleBuilder
+            .NotEmpty()
+            .WithMessage("Status is required")
+            .Must(x => Enum.IsDefined(typeof(SubscriptionStatus), x))
+            .WithMessage("Status is not valid");
+    }
+    
     public static IRuleBuilderOptions<T, Guid> IsModuleExist<T>(
         this IRuleBuilder<T, Guid> ruleBuilder,
         CourseDbContext context)
@@ -159,15 +170,5 @@ public static class CustomValidator
             return await context.CourseModules.AnyAsync(c => c.Id == id, cancellationToken: t);
         }).WithMessage("Category is not found");
     }
-
-    // public static IRuleBuilderOptionsConditions<T, TProperty> WhenNotEmptyString<T, TProperty>(
-    //     this IRuleBuilderOptionsConditions<T, TProperty> rule, ApplyConditionTo applyConditionTo = ApplyConditionTo.AllValidators)
-    // {
-    //     Func<TProperty, bool> predicate = x => !string.IsNullOrWhiteSpace(x?.ToString());
-    //     return rule.When((x, ctx) =>
-    //     {
-    //         var propertyValue = typeof(T).GetProperty(ctx.PropertyName)?.GetValue(ctx.InstanceToValidate);
-    //         return predicate((TProperty)propertyValue);
-    //     }, applyConditionTo);
-    // }
+    
 }

@@ -11,8 +11,7 @@ public class UpdateStudentValidator : AbstractValidator<UpdateStudentCommand>
     {
         RuleFor(x => x.Id)
             .NotEmpty()
-            .WithMessage("Id is required")
-            .IsStudentExist(context);
+            .WithMessage("Id is required");
 
         RuleFor(x => x.CoursesInProgress)
             .GreaterThanOrEqualTo(0)

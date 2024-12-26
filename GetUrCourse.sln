@@ -8,7 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FrontEnd", "FrontEnd", "{8A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GateWay", "GateWay", "{AA472A8A-5CE0-4377-99C8-C5E23F836AAE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GetUrCourse.Services.PaymentAPI", "PaymentAPI\GetUrCourse.Services.PaymentAPI.csproj", "{0454D285-CF31-4790-98EF-4B0B0019BD3B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GetUrCourse.Services.PaymentAPI", "GetUrCourse.Services.PaymentAPI\GetUrCourse.Services.PaymentAPI.csproj", "{0454D285-CF31-4790-98EF-4B0B0019BD3B}"
 EndProject
 
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetUrCourse.Services.CourseAPI", "GetUrCourse.Services.CourseAPI\GetUrCourse.Services.CourseAPI.csproj", "{8AA37788-02AE-43CE-B267-5F90B4D93053}"

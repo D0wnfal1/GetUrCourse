@@ -1,0 +1,70 @@
+services:
+  # Services Payment Apidocker
+  geturcourse-services-payment-api:
+    build: GetUrCourse.Services.PaymentAPI/
+    container_name: 'geturcourse-services-payment-api'
+    restart: always
+    ports:
+      - "5583:8080"  
+    environment:
+      - "ConnectionStrings:DefaultConnection=Host=geturcourse-auth-db;Database=geturcourse_auth_db;Username=postgres;Password=docker"
+    depends_on:
+      - geturcourse-payment-db
+
+  # Payment Db
+  geturcourse-payment-db:
+    image: "postgres:latest"
+    container_name: 'geturcourse-payment-db'
+    restart: always
+    ports:
+      - "5433:5432"  
+    environment:
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=geturcourse_payment_db
+    volumes:
+      - geturcourse-payment-db-data:/var/lib/postgresql/data 
+    healthcheck:
+      test: ["CMD", "pg_isready", "-h", "localhost", "-U", "postgres"]
+      interval: 30s
+      retries: 5
+      timeout: 10s
+
+  # Redis service
+  promocode-factory-redis:
+    image: "redis:alpine"
+    container_name: 'geturcourse-redis'
+    restart: always
+    ports:
+      - "6379:6379"  
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      retries: 5
+      timeout: 10s
+
+  rabbitmq:
+    image: masstransit/rabbitmq
+    container_name: GetUrCourse.RabbitMQ
+    volumes:
+      - ./.container/queue/data/:/var/lib/rabbitmq  
+      - ./.container/queue/log/:/var/log/rabbitmq  
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    ports:
+      - "5672:5672"  
+      - "15672:15672" 
+
+  rabbitPostgres:
+    image: postgres:latest
+    container_name: GetUrCourse.RabbitPostgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=rabbit
+    ports:
+      - "5228:5432"  
+
+volumes:
+  geturcourse-payment-db-data:  

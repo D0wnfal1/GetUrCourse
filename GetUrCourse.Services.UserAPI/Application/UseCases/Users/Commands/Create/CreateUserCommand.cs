@@ -5,7 +5,7 @@ using GetUrCourse.Services.UserAPI.Core.ValueObjects;
 namespace GetUrCourse.Services.UserAPI.Application.UseCases.Users.Commands.Create;
 
 public record CreateUserCommand(
-    UserName Name,
+    string Name,
     string Email,
     Role Role,
     Guid Id

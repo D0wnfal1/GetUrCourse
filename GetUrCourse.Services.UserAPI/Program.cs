@@ -1,8 +1,6 @@
 using FluentValidation;
 using GetUrCourse.Services.UserAPI.Application.Behavior;
 using GetUrCourse.Services.UserAPI.Application.UseCases.Users.Commands.Create;
-using GetUrCourse.Services.UserAPI.ConsumerMessage;
-using GetUrCourse.Services.UserAPI.ConsumerService;
 using GetUrCourse.Services.UserAPI.Infrastructure.Caching;
 using GetUrCourse.Services.UserAPI.Infrastructure.Data;
 using MassTransit;
@@ -14,7 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 var configuration = builder.Configuration;
 var host = builder.Host;
-var kafkaConfig = builder.Configuration.GetSection("Kafka");
+var rabbitConfig = builder.Configuration.GetSection("RabbitMq");
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -47,26 +45,20 @@ host.UseSerilog((context, configuration) =>
         .Enrich.FromLogContext()
         .WriteTo.Console();
 });
-    
 
 builder.Services.AddMassTransit(x =>
 {
-    x.UsingInMemory((context, configurator) => configurator.ConfigureEndpoints(context));
-    
-    x.AddRider(rider =>
+    x.SetKebabCaseEndpointNameFormatter();
+    x.AddConsumers(typeof(Program).Assembly);
+    x.UsingRabbitMq((context, cfg) =>
     {
-        rider.AddConsumer<UserRegisterConsumer>();
-
-        rider.UsingKafka((context, k) =>
+        cfg.Host("localhost", "/" , h =>
         {
-            k.Host(kafkaConfig["BootstrapServers"]);
-
-            k.TopicEndpoint<UserRegistrationMessage>("registration-topic", "register", e =>
-            {
-                e.ConfigureConsumer<UserRegisterConsumer>(context);
-                e.CreateIfMissing();
-            });
+            h.Username(rabbitConfig["Username"]!);
+            h.Password(rabbitConfig["Password"]!);
         });
+       
+        cfg.ConfigureEndpoints(context);
     });
 });
 

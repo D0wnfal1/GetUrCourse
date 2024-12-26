@@ -14,13 +14,13 @@ public class User
     private User() { }
     
     private User(
-        UserName name,
+        string FullName,
         string email, 
         Role role, Guid id)
     {
         Id = id;
         Email = email;
-        Name = name;
+        Name = UserName.Create(FullName).Value;
         CreatedAt = DateTime.Now;
         Role = role;
     }
@@ -45,7 +45,7 @@ public class User
 
 
     public static Result<User> Create(
-        UserName name,
+        string name,
         string email,
         Role role, Guid id)
     {

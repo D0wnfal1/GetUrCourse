@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using GetUrCourse.Contracts.User;
 
 namespace GetUrCourse.Services.AuthAPI.Services
 {
@@ -128,6 +129,28 @@ namespace GetUrCourse.Services.AuthAPI.Services
             }
 
             return (loginResponse, null);
+        }
+        
+        public async Task<(DeleteUserDTO, string errorMessage)> DeleteUserAsync(DeleteUserDTO model)
+        {
+            var userFromDb = _authDbContext.ApplicationUsers
+                .FirstOrDefault(u => u.Id == model.UserId.ToString());
+
+            if (userFromDb == null)
+            {
+                return (null, "User not found!");
+            }
+
+            if (userFromDb != null)
+            {
+                var result = await _userManager.DeleteAsync(userFromDb);
+                if (result.Succeeded)
+                {
+                    return (model, null);
+                }
+            }
+
+            return (null, "Error while deleting user!");
         }
     }
 }

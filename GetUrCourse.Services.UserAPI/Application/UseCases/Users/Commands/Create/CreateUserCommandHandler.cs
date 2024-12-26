@@ -1,11 +1,16 @@
+using GetUrCourse.Contracts.User;
 using GetUrCourse.Services.UserAPI.Application.Messaging;
+using GetUrCourse.Services.UserAPI.Core.Enums;
 using GetUrCourse.Services.UserAPI.Core.Models;
 using GetUrCourse.Services.UserAPI.Core.Shared;
 using GetUrCourse.Services.UserAPI.Infrastructure.Data;
+using MassTransit;
 
 namespace GetUrCourse.Services.UserAPI.Application.UseCases.Users.Commands.Create;
 
-public class CreateUserCommandHandler(UserDbContext context) : ICommandHandler<CreateUserCommand, UserCreateResponse>
+public class CreateUserCommandHandler(UserDbContext context, ILogger<CreateUserCommandHandler> logger) : 
+    ICommandHandler<CreateUserCommand, UserCreateResponse>,
+    IConsumer<AddUser>
 {
     public async Task<Result<UserCreateResponse>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
@@ -24,6 +29,17 @@ public class CreateUserCommandHandler(UserDbContext context) : ICommandHandler<C
                 user.Value.Name.FirstName, 
                 user.Value.Name.LastName));
         
+    }
+    public async Task Consume(ConsumeContext<AddUser> context)
+    {
+        var message = context.Message;
+        var command = new CreateUserCommand(
+            message.FullName, 
+            message.Email, 
+            Enum.Parse<Role>(message.Role), 
+            message.UserId);
+       
+        await Handle(command, context.CancellationToken);
     }
 }
 

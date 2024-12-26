@@ -1,5 +1,5 @@
-﻿using GetUrCourse.Services.AuthAPI.DTOs;
-using GetUrCourse.Services.AuthAPI.ProducerMessage;
+﻿using GetUrCourse.Contracts.User;
+using GetUrCourse.Services.AuthAPI.DTOs;
 using GetUrCourse.Services.AuthAPI.Services;
 using MassTransit;
 using Microsoft.AspNetCore.Mvc;
@@ -11,12 +11,12 @@ namespace GetUrCourse.Services.AuthAPI.Controllers
     public class AuthController : ControllerBase
     {
         private readonly AuthService _authService;
-        private readonly ITopicProducer<UserRegistrationMessage> _producer;
+        private readonly IBus _publishEndpoint;
 
-        public AuthController(AuthService authService, ITopicProducer<UserRegistrationMessage> producer)
+        public AuthController(AuthService authService, IBus publishEndpoint)
         {
             _authService = authService;
-            _producer = producer;
+            _publishEndpoint = publishEndpoint;
         }
 
         /// <summary>
@@ -27,23 +27,22 @@ namespace GetUrCourse.Services.AuthAPI.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromForm] RegisterRequestDTO model)
         {
-            var (user, errorMessage) = await _authService.RegisterAsync(model);
-
-            if (!string.IsNullOrEmpty(errorMessage))
-            {
-                return BadRequest(errorMessage);
-            }
-
-            UserRegistrationMessage message = new UserRegistrationMessage()
-            {
-                Id = Guid.Parse(user.Id),
-                Email = user.Email,
-                Name = user.Name
-            };
-
-            await _producer.Produce(message);
-
-            return Ok(user);
+            // var (user, errorMessage) = await _authService.RegisterAsync(model);
+            //
+            // if (!string.IsNullOrEmpty(errorMessage))
+            // {
+            //     return BadRequest(errorMessage);
+            // }
+            
+            await _publishEndpoint.Publish(new AddUser(
+                Guid.NewGuid(),
+                model.UserName,
+                model.Name,
+                model.Role,
+                DateTime.UtcNow));
+            Console.WriteLine("User add command published");
+            
+            return Ok();
         }
 
         /// <summary>

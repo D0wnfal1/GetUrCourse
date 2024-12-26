@@ -17,9 +17,6 @@ public class CreateUserValidation : AbstractValidator<CreateUserCommand>
             .WithMessage("Email is not valid")
             .IsEmailUnique(context);
 
-        RuleFor(x => x.Name)
-            .MustBeValueObject(x => UserName.Create(x.FirstName, x.LastName));
-
         RuleFor(x => x.Role)
             .IsRoleValid();
             

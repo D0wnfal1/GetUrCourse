@@ -19,8 +19,7 @@ public class NotificationService(IEmailSender emailSender, ITemplateReader templ
         
         htmlBody = htmlBody.Replace("{0}", userDto.FullName)
             .Replace("{1}", userDto.Email)
-            .Replace("{2}", userDto.PhoneNumber)
-            .Replace("{3}", "");
+            .Replace("{2}", "");
 
         await emailSender.SendEmailAsync(userDto.Email, Wc.ConfirmEmail, htmlBody);
         return true;
@@ -37,8 +36,7 @@ public class NotificationService(IEmailSender emailSender, ITemplateReader templ
         
         htmlBody = htmlBody.Replace("{0}", userDto.FullName)
             .Replace("{1}", userDto.Email)
-            .Replace("{2}", userDto.PhoneNumber)
-            .Replace("{3}", courseName);
+            .Replace("{2}", courseName);
 
         await emailSender.SendEmailAsync(userDto.Email, Wc.CourseRegister, htmlBody);
 
@@ -53,11 +51,9 @@ public class NotificationService(IEmailSender emailSender, ITemplateReader templ
         {
             return false;
         }
-        
-        htmlBody = htmlBody.Replace("{0}", userDto.FullName)
-            .Replace("{1}", userDto.Email)
-            .Replace("{2}", userDto.PhoneNumber);
 
+        htmlBody = htmlBody.Replace("{0}", userDto.FullName)
+            .Replace("{1}", userDto.Email);
         await emailSender.SendEmailAsync(userDto.Email, Wc.BanAccount, htmlBody);
 
         return true;
@@ -71,10 +67,9 @@ public class NotificationService(IEmailSender emailSender, ITemplateReader templ
         {
             return false;
         }
-        
+
         htmlBody = htmlBody.Replace("{0}", userDto.FullName)
-            .Replace("{1}", userDto.Email)
-            .Replace("{2}", userDto.PhoneNumber);
+            .Replace("{1}", userDto.Email);
 
         await emailSender.SendEmailAsync(userDto.Email, Wc.TeacherConfirmEmail, htmlBody);
 
@@ -89,10 +84,9 @@ public class NotificationService(IEmailSender emailSender, ITemplateReader templ
         {
             return false;
         }
-        
+
         htmlBody = htmlBody.Replace("{0}", userDto.FullName)
-            .Replace("{1}", userDto.Email)
-            .Replace("{2}", userDto.PhoneNumber);
+            .Replace("{1}", userDto.Email);
 
         await emailSender.SendEmailAsync(userDto.Email, Wc.HomeworkSendEmail, htmlBody);
 
@@ -107,10 +101,9 @@ public class NotificationService(IEmailSender emailSender, ITemplateReader templ
         {
             return false;
         }
-        
+
         htmlBody = htmlBody.Replace("{0}", userDto.FullName)
-            .Replace("{1}", userDto.Email)
-            .Replace("{2}", userDto.PhoneNumber);
+            .Replace("{1}", userDto.Email);
 
         await emailSender.SendEmailAsync(userDto.Email, Wc.HomeworkReviewEmail, htmlBody);
 
@@ -128,8 +121,7 @@ public class NotificationService(IEmailSender emailSender, ITemplateReader templ
         
         htmlBody = htmlBody.Replace("{1}", userDto.FullName)
             .Replace("{2}", userDto.Email)
-            .Replace("{3}", userDto.PhoneNumber)
-            .Replace("{4}", courseName);
+            .Replace("{3}", courseName);
 
         switch (type)
         {
@@ -158,10 +150,9 @@ public class NotificationService(IEmailSender emailSender, ITemplateReader templ
         {
             return false;
         }
-        
+
         htmlBody = htmlBody.Replace("{0}", userDto.FullName)
-            .Replace("{1}", userDto.Email)
-            .Replace("{2}", userDto.PhoneNumber);
+            .Replace("{1}", userDto.Email);
 
         await emailSender.SendEmailAsync(userDto.Email, Wc.CreateAdminEmail, htmlBody);
 
@@ -198,10 +189,9 @@ public class NotificationService(IEmailSender emailSender, ITemplateReader templ
         
         htmlBody = htmlBody.Replace("{0}", userDto.FullName)
             .Replace("{1}", userDto.Email)
-            .Replace("{2}", userDto.PhoneNumber)
-            .Replace("{3}", courseName)
-            .Replace("{4}", dataCourse.ToString())
-            .Replace("{5}", teacherName);
+            .Replace("{2}", courseName)
+            .Replace("{3}", dataCourse.ToString())
+            .Replace("{4}", teacherName);
 
         await emailSender.SendEmailAsync(userDto.Email, Wc.ScheduleNotificationEmail, htmlBody);
 
@@ -220,10 +210,9 @@ public class NotificationService(IEmailSender emailSender, ITemplateReader templ
 
         htmlBody = htmlBody.Replace("{0}", userDto.FullName)
             .Replace("{1}", userDto.Email)
-            .Replace("{2}", userDto.PhoneNumber)
-            .Replace("{3}", paymentDto.TransactionId.ToString())
-            .Replace("{4}", paymentDto.AmountPaid)
-            .Replace("{5}", paymentDto.PaymentDate.ToString());
+            .Replace("{2}", paymentDto.TransactionId.ToString())
+            .Replace("{3}", paymentDto.AmountPaid)
+            .Replace("{4}", paymentDto.PaymentDate.ToString());
 
         await emailSender.SendEmailAsync(userDto.Email, Wc.PaymentNotificationEmail, htmlBody);
 

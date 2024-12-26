@@ -1,13 +1,32 @@
 using GetUrCourse.Services.NotificationAPI.Infrastructure.MailJet;
 using GetUrCourse.Services.NotificationAPI.Infrastructure.NotificationService;
 using GetUrCourse.Services.NotificationAPI.Infrastructure.TemplateReader;
+using MassTransit;
 using Microsoft.AspNetCore.Identity.UI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var rabbitConfig = builder.Configuration.GetSection("RabbitMq");
+
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.AddTransient<ITemplateReader, TemplateReader>();
 builder.Services.AddTransient<INotificationService, NotificationService>();
+var kafkaConfig = builder.Configuration.GetSection("Kafka");
+
+builder.Services.AddMassTransit(x =>
+{
+    x.SetKebabCaseEndpointNameFormatter();
+    x.AddConsumers(typeof(Program).Assembly);
+    x.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host("localhost", "/" , h =>
+        {
+            h.Username(rabbitConfig["Username"]!);
+            h.Password(rabbitConfig["Password"]!);
+        });
+        cfg.ConfigureEndpoints(context);
+    });
+});
 
 builder.Services.AddControllers();
 // Add services to the container.

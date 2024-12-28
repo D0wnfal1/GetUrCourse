@@ -9,7 +9,7 @@ public class CompleteRegisterNewUserConsumer : IConsumer<OnCompleteRegistrationN
     public Task Consume(ConsumeContext<OnCompleteRegistrationNewUser> context)
     {
         var message = context.Message;
-        Console.WriteLine($"User added and notified with correlation id: {message.CorrelationId}");
+        Console.WriteLine($"User registration completed: {message.CorrelationId}");
         return Task.CompletedTask;
     }
 }

@@ -7,7 +7,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using GetUrCourse.Contracts.User;
 
 namespace GetUrCourse.Services.AuthAPI.Services
 {
@@ -47,8 +46,8 @@ namespace GetUrCourse.Services.AuthAPI.Services
             var newUser = new ApplicationUser()
             {
                 UserName = model.UserName,
-                Email = model.UserName,
-                NormalizedEmail = model.UserName.ToUpper(),
+                Email = model.Email,
+                NormalizedEmail = model.Email.ToUpper(),
                 Name = model.Name
             };
 

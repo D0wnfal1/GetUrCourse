@@ -5,10 +5,11 @@ using MassTransit;
 
 namespace GetUrCourse.Services.NotificationAPI.Consumers;
 
-public class NotifyConsumer(INotificationService service): IConsumer<NotifyUser>
+public class NotifyConsumer(INotificationService service, ILogger<NotifyConsumer> logger): IConsumer<NotifyUser>
 {
     public async Task Consume(ConsumeContext<NotifyUser> context)
     {
+        logger.LogInformation($"User notifying started");
         var message = context.Message;
         var userDto = new UserDto()
         {
@@ -16,7 +17,10 @@ public class NotifyConsumer(INotificationService service): IConsumer<NotifyUser>
             Email = message.Email
         };
         await service.SendConfirmEmailAsync(userDto);
-
-        Console.WriteLine($"User notified event published");
+        
+        await context.Publish(
+            new UserNotified(message.UserId, message.Email));
+        
+        logger.LogInformation($"User notifying finished");
     }
 }

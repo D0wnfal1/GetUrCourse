@@ -49,6 +49,7 @@ public class RegisterNewUserSaga : MassTransitStateMachine<RegisterNewUserSagaDa
             When(UserAddFailed)
                 .Then(context =>
                 {
+                    context.Saga.UserId = context.Message.UserId;
                     context.Saga.UserAdded = false;
                     context.Saga.Completed = false;
                     context.Saga.Faulted = true;

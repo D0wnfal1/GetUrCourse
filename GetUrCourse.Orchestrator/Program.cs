@@ -1,3 +1,4 @@
+using GetUrCourse.Orchestrator;
 using GetUrCourse.Orchestrator.Sagas;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
@@ -24,7 +25,7 @@ builder.Services.AddMassTransit(x =>
         });
     x.UsingRabbitMq((context, cfg) =>
     {
-        cfg.Host("localhost", "/" , h =>
+        cfg.Host(rabbitConfig["Host"], "/" , h =>
         {
             h.Username(rabbitConfig["Username"]!);
             h.Password(rabbitConfig["Password"]!);
@@ -36,7 +37,7 @@ builder.Services.AddMassTransit(x =>
 });
 
 var app = builder.Build();
-
+Database.Migrate(app);
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

@@ -12,11 +12,13 @@ namespace GetUrCourse.Services.AuthAPI.Controllers
     {
         private readonly AuthService _authService;
         private readonly IBus _publishEndpoint;
+        private readonly ILogger<AuthController> _logger;
 
-        public AuthController(AuthService authService, IBus publishEndpoint)
+        public AuthController(AuthService authService, IBus publishEndpoint, ILogger<AuthController> logger)
         {
             _authService = authService;
             _publishEndpoint = publishEndpoint;
+            _logger = logger;
         }
 
         /// <summary>
@@ -27,20 +29,22 @@ namespace GetUrCourse.Services.AuthAPI.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromForm] RegisterRequestDTO model)
         {
-            // var (user, errorMessage) = await _authService.RegisterAsync(model);
-            //
-            // if (!string.IsNullOrEmpty(errorMessage))
-            // {
-            //     return BadRequest(errorMessage);
-            // }
+            _logger.LogInformation("Registering user: {UserName}", model.UserName);
+            var (user, errorMessage) = await _authService.RegisterAsync(model);
+            
+            if (!string.IsNullOrEmpty(errorMessage))
+            {
+                return BadRequest(errorMessage);
+            }
             
             await _publishEndpoint.Publish(new AddUser(
-                Guid.NewGuid(),
-                model.UserName,
-                model.Name,
+                Guid.Parse(user.Id), 
+                user.Email,
+                user.Name,
                 model.Role,
                 DateTime.UtcNow));
-            Console.WriteLine("User add command published");
+            
+            _logger.LogInformation("Registering user finished: {UserName}", model.UserName);
             
             return Ok();
         }

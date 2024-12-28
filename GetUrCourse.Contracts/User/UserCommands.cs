@@ -9,4 +9,4 @@ public record AddUser(
 
 public record DeleteUser(Guid UserId);
 
-public record NotifyUser(Guid Id, string Email, string FullName);
+public record NotifyUser(Guid UserId, string Email, string FullName);

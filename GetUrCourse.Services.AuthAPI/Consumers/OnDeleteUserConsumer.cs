@@ -5,10 +5,11 @@ using MassTransit;
 
 namespace GetUrCourse.Services.AuthAPI.Consumers;
 
-public class OnDeleteUserConsumer(AuthService authService, Logger<OnDeleteUserConsumer> logger) : IConsumer<DeleteUser>
+public class OnDeleteUserConsumer(AuthService authService, ILogger<OnDeleteUserConsumer> logger) : IConsumer<DeleteUser>
 {
     public async Task Consume(ConsumeContext<DeleteUser> context)
     {
+        logger.LogInformation("User deleting started");
         var message = context.Message;
         var command = new DeleteUserDTO(message.UserId);
         var (response, error)  = await authService.DeleteUserAsync(command);

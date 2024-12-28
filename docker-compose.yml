@@ -42,6 +42,182 @@ services:
       interval: 30s
       retries: 5
       timeout: 10s
+    
+  authService:
+    image: geturcourse/auth
+    container_name: GetUrCourse.Auth
+    build:
+      context: .
+      dockerfile: src/GetUrCourse.Auth/Dockerfile
+    ports:
+      - "5000:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Release
+    depends_on:
+      - rabbitmq
+      - rabbitPostgres
+      - authPostgres
+  
+  authPostgres:
+    image: postgres:latest
+    container_name: GetUrCourse.AuthPostgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=auth
+    ports: 
+      - "5229:5432"
+    volumes:
+      - GetUrCourse.AuthPostgres:/var/lib/postgresql/data
+  
+  
+  notificationService:
+    image: geturcourse/notification
+    container_name: GetUrCourse.Notification
+    build:
+      context: .
+      dockerfile: src/GetUrCourse.Notification/Dockerfile
+    ports:
+      - "5001:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - rabbitmq
+      - rabbitPostgres
+  
+  notificationPostgres:
+    image: postgres:latest
+    container_name: GetUrCourse.NotificationPostgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=notification
+    ports:
+      - "5231:5432"
+    volumes:
+      - GetUrCourse.NotificationPostgres:/var/lib/postgresql/data
+  
+  userService:
+    image: geturcourse/user
+    container_name: GetUrCourse.User
+    build:
+      context: .
+      dockerfile: src/GetUrCourse.User/Dockerfile
+    ports:
+      - "5002:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - rabbitmq
+      - rabbitPostgres
+      - userPostgres
+  
+  userPostgres:
+    image: postgres:latest
+    container_name: GetUrCourse.UserPostgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=user
+    ports:
+      - "5230:5432"
+    volumes:
+      - GetUrCourse.UserPostgres:/var/lib/postgresql/data
+  
+  taskService:
+    image: geturcourse/user
+    container_name: GetUrCourse.User
+    build:
+      context: .
+      dockerfile: src/GetUrCourse.User/Dockerfile
+    ports:
+      - "5002:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - rabbitmq
+      - rabbitPostgres
+      - userPostgres
+  
+  taskPostgres:
+    image: postgres:latest
+    container_name: GetUrCourse.UserPostgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=user
+    ports:
+      - "5230:5432"
+    volumes:
+      - GetUrCourse.UserPostgres:/var/lib/postgresql/data
+  
+  courseService:
+    image: geturcourse/course
+    container_name: GetUrCourse.Course
+    build:
+      context: .
+      dockerfile: src/GetUrCourse.Course/Dockerfile
+    ports:
+      - "5004:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - rabbitmq
+      - rabbitPostgres
+      - coursePostgres
+  
+  coursePostgres:
+    image: postgres:latest
+    container_name: GetUrCourse.CoursePostgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=course
+    ports:
+      - "5232:5432"
+    volumes:
+      - GetUrCourse.CoursePostgres:/var/lib/postgresql/data
+  
+  chatService:
+    image: geturcourse/chat
+    container_name: GetUrCourse.Chat
+    build:
+      context: .
+      dockerfile: src/GetUrCourse.Chat/Dockerfile
+    ports:
+      - "5005:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - rabbitmq
+      - rabbitPostgres
+      - chatPostgres
+  
+  chatPostgres:
+    image: postgres:latest
+    container_name: GetUrCourse.ChatPostgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=chat
+    ports:
+      - "5233:5432"
+    volumes:
+      - GetUrCourse.ChatPostgres:/var/lib/postgresql/data
+  
+  orchestrator:
+    image: geturcourse/orchestrator
+    container_name: GetUrCourse.Orchestrator
+    build:
+      context: .
+      dockerfile: src/GetUrCourse.Orchestrator/Dockerfile
+    ports:
+      - "5003:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - rabbitmq
+      - rabbitPostgres
 
   rabbitmq:
     image: masstransit/rabbitmq
@@ -65,6 +241,14 @@ services:
       - POSTGRES_DB=rabbit
     ports:
       - "5228:5432"  
+    volumes:
+      - GetUrCourse.RabbitPostgres:/var/lib/postgresql/data
 
 volumes:
-  geturcourse-payment-db-data:  
+  geturcourse-payment-db-data:
+  GetUrCourse.AuthPostgres:
+  GetUrCourse.NotificationPostgres:
+  GetUrCourse.UserPostgres:
+  GetUrCourse.CoursePostgres:
+  GetUrCourse.ChatPostgres:
+  GetUrCourse.RabbitPostgres:

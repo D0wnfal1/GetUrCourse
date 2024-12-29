@@ -31,25 +31,33 @@ public class CreateUserCommandHandler(UserDbContext context, ILogger<CreateUserC
     }
     public async Task Consume(ConsumeContext<AddUser> context)
     {
-        logger.LogInformation("User adding started");
         var message = context.Message;
-        var command = new CreateUserCommand(
-            message.FullName, 
-            message.Email, 
-            Enum.Parse<Role>(message.Role), 
-            message.UserId);
+        try
+        {
+            logger.LogInformation("User adding started");
+            var command = new CreateUserCommand(
+                message.FullName, 
+                message.Email, 
+                Enum.Parse<Role>(message.Role), 
+                message.UserId);
        
-       var result =  await Handle(command, context.CancellationToken);
+            var result =  await Handle(command, context.CancellationToken);
 
-       if (result.IsFailure)
-       {
-           await context.Publish(new UserAddFailed(message.UserId));
-           logger.LogInformation("User adding failed with UserAddFailed event published");
-       }
-        await context.Publish(
-            new UserAdded(message.UserId, message.Email));
+            if (result.IsFailure)
+            {
+                
+            }
+            await context.Publish(
+                new UserAdded(message.UserId, message.Email, message.FullName));
         
-        logger.LogInformation("User adding finished with UserAdded event published");
+            logger.LogInformation("User adding finished with UserAdded event published");
+        }
+        catch (Exception e)
+        {
+            await context.Publish(new UserAddFailed(message.UserId));
+            logger.LogInformation("User adding failed with UserAddFailed event published");
+        }
+        
     }
 }
 

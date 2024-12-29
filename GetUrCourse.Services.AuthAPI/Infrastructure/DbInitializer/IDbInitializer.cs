@@ -1,5 +1,5 @@
 ﻿
-namespace GetUrCourse.Services.PaymentAPI.Infrastructure.DbInitializer
+namespace GetUrCourse.Services.AuthAPI.Infrastructure.DbInitializer
 {
 	public interface IDbInitializer
 	{

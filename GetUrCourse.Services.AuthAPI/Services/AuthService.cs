@@ -1,12 +1,12 @@
 ﻿using GetUrCourse.Services.AuthAPI.Constants;
 using GetUrCourse.Services.AuthAPI.DTOs;
 using GetUrCourse.Services.AuthAPI.Entities;
-using GetUrCourse.Services.PaymentAPI.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using GetUrCourse.Services.AuthAPI.Infrastructure.Data;
 
 namespace GetUrCourse.Services.AuthAPI.Services
 {

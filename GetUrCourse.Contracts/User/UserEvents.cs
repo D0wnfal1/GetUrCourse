@@ -1,7 +1,7 @@
 namespace GetUrCourse.Contracts.User;
 
 
-public record UserAdded(Guid UserId, string Email);
+public record UserAdded(Guid UserId, string Email, string FullName);
 public record UserNotified(Guid UserId, string Email);
 
 public record UserAddFailed(Guid UserId);

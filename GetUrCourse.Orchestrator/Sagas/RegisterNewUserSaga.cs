@@ -39,13 +39,15 @@ public class RegisterNewUserSaga : MassTransitStateMachine<RegisterNewUserSagaDa
                 {
                     context.Saga.UserId = context.Message.UserId;
                     context.Saga.Email = context.Message.Email;
+                    context.Saga.FullName = context.Message.FullName;
+                    
                     context.Saga.UserAdded = true;
                 })
                 .TransitionTo(NotifyingUser)
                 .Publish(context => new NotifyUser(
                     context.Saga.UserId,
                     context.Saga.Email,
-                    "register")),
+                    context.Saga.FullName)),
             When(UserAddFailed)
                 .Then(context =>
                 {

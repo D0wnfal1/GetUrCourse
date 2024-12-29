@@ -66,7 +66,7 @@ services.AddValidatorsFromAssemblyContaining<CreateUserValidation>();
 services.AddControllers();
 
 var app = builder.Build();
-// Database.Migrate(app);
+Database.Migrate(app);
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

@@ -11,7 +11,7 @@ public class NotifyConsumer(INotificationService service, ILogger<NotifyConsumer
     {
         logger.LogInformation($"User notifying started");
         var message = context.Message;
-        var userDto = new UserDto()
+        var userDto = new UserDto
         {
             FullName = message.FullName,
             Email = message.Email

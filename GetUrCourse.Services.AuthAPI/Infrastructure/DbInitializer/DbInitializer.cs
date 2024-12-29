@@ -1,10 +1,10 @@
 ﻿using GetUrCourse.Services.AuthAPI.Constants;
 using GetUrCourse.Services.AuthAPI.Entities;
-using GetUrCourse.Services.PaymentAPI.Infrastructure.Data;
+using GetUrCourse.Services.AuthAPI.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace GetUrCourse.Services.PaymentAPI.Infrastructure.DbInitializer
+namespace GetUrCourse.Services.AuthAPI.Infrastructure.DbInitializer
 {
     public class DbInitializer : IDbInitializer
     {

@@ -16,10 +16,9 @@ public class NotificationService(IEmailSender emailSender, ITemplateReader templ
         {
             return false;
         }
-        
+
         htmlBody = htmlBody.Replace("{0}", userDto.FullName)
-            .Replace("{1}", userDto.Email)
-            .Replace("{2}", "");
+            .Replace("{1}", userDto.Email);
 
         await emailSender.SendEmailAsync(userDto.Email, Wc.ConfirmEmail, htmlBody);
         return true;

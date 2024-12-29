@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace GetUrCourse.Services.PaymentAPI.Infrastructure.Data
+namespace GetUrCourse.Services.AuthAPI.Infrastructure.Data
 {
     public class AuthDbContext : IdentityDbContext<ApplicationUser>
     {

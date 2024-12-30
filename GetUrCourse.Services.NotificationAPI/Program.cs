@@ -11,7 +11,6 @@ var rabbitConfig = builder.Configuration.GetSection("RabbitMq");
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.AddTransient<ITemplateReader, TemplateReader>();
 builder.Services.AddTransient<INotificationService, NotificationService>();
-var kafkaConfig = builder.Configuration.GetSection("Kafka");
 
 builder.Services.AddMassTransit(x =>
 {

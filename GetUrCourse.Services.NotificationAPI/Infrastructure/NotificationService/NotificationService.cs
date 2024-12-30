@@ -5,15 +5,19 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GetUrCourse.Services.NotificationAPI.Infrastructure.NotificationService;
 
-public class NotificationService(IEmailSender emailSender, ITemplateReader templateReader) : INotificationService
+public class NotificationService(IEmailSender emailSender, ITemplateReader templateReader, ILogger<NotificationService> logger) : INotificationService
 {
     public async Task<bool> SendConfirmEmailAsync(UserDto userDto)
     {
+        logger.LogInformation("Sending confirmation email to {0}", userDto.Email);
         var templatePath = "Template/Confirmation.html";
         var htmlBody = await templateReader.ReadTemplateAsync(templatePath);
         
+        logger.LogInformation("Template read successfully");
+        
         if (htmlBody == null)
         {
+            logger.LogInformation("Template read successfully but null");
             return false;
         }
 
@@ -21,6 +25,7 @@ public class NotificationService(IEmailSender emailSender, ITemplateReader templ
             .Replace("{1}", userDto.Email);
 
         await emailSender.SendEmailAsync(userDto.Email, Wc.ConfirmEmail, htmlBody);
+        logger.LogInformation("Email sent successfully to {0}", userDto.Email);
         return true;
     }
     public async Task<bool> SendRegisterCourseEmailAsync(UserDto userDto, string courseName)

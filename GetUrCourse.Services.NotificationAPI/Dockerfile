@@ -28,4 +28,5 @@ RUN dotnet publish "./GetUrCourse.Services.NotificationAPI.csproj" -c $BUILD_CON
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+COPY ["GetUrCourse.Services.NotificationAPI/Template", "./Template"]
 ENTRYPOINT ["dotnet", "GetUrCourse.Services.NotificationAPI.dll"]

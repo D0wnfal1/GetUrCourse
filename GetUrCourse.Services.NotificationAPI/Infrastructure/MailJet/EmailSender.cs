@@ -13,6 +13,7 @@ public class EmailSender(IConfiguration configuration, ILogger<EmailSender> logg
         {
             try
             {
+                logger.LogInformation("Trying to send email to {email}.", email);
                 MailJetSettings = configuration.GetSection("MailJet").Get<MailJetSettings>();
                 if (MailJetSettings != null)
                 {
@@ -32,7 +33,7 @@ public class EmailSender(IConfiguration configuration, ILogger<EmailSender> logg
                                 { "Name", email }
                             }
                         });
-
+                    logger.LogInformation("before sending email");
                     var response = await client.PostAsync(request);
 
                     if (response.IsSuccessStatusCode)

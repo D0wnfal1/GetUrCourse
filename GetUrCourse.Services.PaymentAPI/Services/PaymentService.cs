@@ -62,7 +62,11 @@ public class PaymentService
     }
     public async Task<string> CreatePaymentAsync(string orderId, string action, decimal amount, string description)
     {
-        var paymentUrl = CreatePayment(orderId, action, amount, description);
+	    if (amount <= 0)
+	    {
+		    throw new ArgumentException("Amount must be greater than zero.", nameof(amount));
+	    }
+		var paymentUrl = CreatePayment(orderId, action, amount, description);
         var payment = new Payment
         {
             OrderId = orderId,
@@ -75,43 +79,56 @@ public class PaymentService
         await _paymentRepository.AddAsync(payment);
         return paymentUrl;
     }
-    /// <summary>
-    /// Update Payment Result Status
-    /// </summary>
-    /// <returns>bool value</returns>
-    public async Task<bool> HandlePaymentResultAsync(Dictionary<string, string> requestDictionary)
-    {
-        if (requestDictionary.TryGetValue("data", out var base64Data) &&
-             requestDictionary.TryGetValue("signature", out var signature))
-        {
-            var decodedData = Encoding.UTF8.GetString(Convert.FromBase64String(base64Data));
-            var requestData = JsonConvert.DeserializeObject<Dictionary<string, string>>(decodedData);
+	/// <summary>
+	/// Update Payment Result Status
+	/// </summary>
+	/// <returns>bool value</returns>
+	public async Task<bool> HandlePaymentResultAsync(Dictionary<string, string> requestDictionary)
+	{
+		if (requestDictionary.TryGetValue("data", out var base64Data) &&
+		    requestDictionary.TryGetValue("signature", out var signature))
+		{
+			var decodedData = Encoding.UTF8.GetString(Convert.FromBase64String(base64Data));
+			var requestData = JsonConvert.DeserializeObject<Dictionary<string, string>>(decodedData);
 
-            var payment = await GetPaymentStatusAsync(requestData["order_id"]);
-            if (requestData["status"] == "success" || requestData["status"] == "subscribed")
-            {
-                payment.Status = PaymentSettings.IsSuccess;
-                if (payment.Action.ToLower() == "subscribe")
-                {
-                    var startDate = DateTime.UtcNow;
-                    var subscriptionPeriod = TimeSpan.FromDays(30);
-                    payment.SubscriptionEndDate = startDate.Add(subscriptionPeriod);
-                }
-            }
-            else
-            {
-                payment.Status = PaymentSettings.IsCanceled;
-            }
-            await SavePaymentAsync(payment);
-            return true;
-        }
-        return false;
-    }
-    /// <summary>
-    /// Create LiqPay request with action "unsubscribe".
-    /// </summary>
-    /// <returns>bool value</returns>
-    public async Task<bool> UnsubscribeAsync(string orderId)
+			if (!requestData.TryGetValue("order_id", out var orderId))
+			{
+				return false;
+			}
+
+			var payment = await GetPaymentStatusAsync(orderId);
+			if (payment == null)
+			{
+				return false;
+			}
+
+			if (requestData.TryGetValue("status", out var status) &&
+			    (status == "success" || status == "subscribed"))
+			{
+				payment.Status = PaymentSettings.IsSuccess;
+
+				if (payment.Action.Equals("subscribe", StringComparison.OrdinalIgnoreCase))
+				{
+					payment.SubscriptionEndDate = DateTime.UtcNow.AddDays(30);
+				}
+			}
+			else
+			{
+				payment.Status = PaymentSettings.IsCanceled;
+			}
+
+			await SavePaymentAsync(payment);
+			return true;
+		}
+
+		return false;
+	}
+
+	/// <summary>
+	/// Create LiqPay request with action "unsubscribe".
+	/// </summary>
+	/// <returns>bool value</returns>
+	public async Task<bool> UnsubscribeAsync(string orderId)
     {
         var data = new Dictionary<string, string>
     {

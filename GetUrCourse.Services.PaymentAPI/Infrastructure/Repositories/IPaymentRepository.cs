@@ -6,6 +6,6 @@ namespace GetUrCourse.Services.PaymentAPI.Infrastructure.Repositories
     {
         Task AddAsync(Payment payment);
         Task<Payment> GetByOrderIdAsync(string orderId);
-        Task UpdateAsync(Payment payment);
+		Task UpdateAsync(Payment payment);
     }
 }

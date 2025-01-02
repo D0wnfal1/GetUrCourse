@@ -27,7 +27,7 @@ namespace GetUrCourse.Services.AuthAPI.Controllers
         /// <param name="model">The registration details of the user.</param>
         /// <returns>Returns a registered user or an error message.</returns>
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromForm] RegisterRequestDTO model)
+        public async Task<IActionResult> Register([FromBody] RegisterRequestDTO model)
         {
             _logger.LogInformation("Registering user: {UserName}", model.UserName);
             var (user, errorMessage) = await _authService.RegisterAsync(model);
@@ -55,7 +55,7 @@ namespace GetUrCourse.Services.AuthAPI.Controllers
         /// <param name="model">The login details of the user.</param>
         /// <returns>Returns the user token if login is successful.</returns>
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromForm] LoginRequestDTO model)
+        public async Task<IActionResult> Login([FromBody] LoginRequestDTO model)
         {
             var (loginResponse, errorMessage) = await _authService.LoginAsync(model);
 

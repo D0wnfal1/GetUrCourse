@@ -2,37 +2,49 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34916.146
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{0311D5D2-FEE4-4F75-AEBF-5B32A06EB171}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "src\Services", "{0311D5D2-FEE4-4F75-AEBF-5B32A06EB171}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FrontEnd", "FrontEnd", "{8AB498A7-6518-408C-937F-647452AEA70F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "src\Frontend", "{8AB498A7-6518-408C-937F-647452AEA70F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GateWay", "GateWay", "{AA472A8A-5CE0-4377-99C8-C5E23F836AAE}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GateWay", "src\GateWay", "{AA472A8A-5CE0-4377-99C8-C5E23F836AAE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetUrCourse.Services.CourseAPI", "GetUrCourse.Services.CourseAPI\GetUrCourse.Services.CourseAPI.csproj", "{8AA37788-02AE-43CE-B267-5F90B4D93053}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetUrCourse.Services.CourseAPI", "src\Services\GetUrCourse.Services.CourseAPI\GetUrCourse.Services.CourseAPI.csproj", "{8AA37788-02AE-43CE-B267-5F90B4D93053}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetUrCourse.Services.AuthAPI", "GetUrCourse.Services.AuthAPI\GetUrCourse.Services.AuthAPI.csproj", "{A02F8CAB-2FF4-41AE-8E34-6DFD6C2E1955}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetUrCourse.Services.AuthAPI", "src\Services\GetUrCourse.Services.AuthAPI\GetUrCourse.Services.AuthAPI.csproj", "{A02F8CAB-2FF4-41AE-8E34-6DFD6C2E1955}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetUrCourse.Services.ChatAPI", "GetUrCourse.Services.ChatAPI\GetUrCourse.Services.ChatAPI.csproj", "{FCEF5464-EF47-4216-AE4C-ED8D4ED7DB90}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetUrCourse.Services.ChatAPI", "src\Services\GetUrCourse.Services.ChatAPI\GetUrCourse.Services.ChatAPI.csproj", "{FCEF5464-EF47-4216-AE4C-ED8D4ED7DB90}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetUrCourse.Services.TaskAPI", "GetUrCourse.Services.TaskAPI\GetUrCourse.Services.TaskAPI.csproj", "{3465E3F7-514A-42E4-93F7-827655B840C5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetUrCourse.Services.TaskAPI", "src\Services\GetUrCourse.Services.TaskAPI\GetUrCourse.Services.TaskAPI.csproj", "{3465E3F7-514A-42E4-93F7-827655B840C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetUrCourse.Services.UserAPI", "GetUrCourse.Services.UserAPI\GetUrCourse.Services.UserAPI.csproj", "{E2C72523-55A9-49EF-92ED-2FBDC752FF40}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetUrCourse.Services.UserAPI", "src\Services\GetUrCourse.Services.UserAPI\GetUrCourse.Services.UserAPI.csproj", "{E2C72523-55A9-49EF-92ED-2FBDC752FF40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetUrCourse.Services.NotificationAPI", "GetUrCourse.Services.NotificationAPI\GetUrCourse.Services.NotificationAPI.csproj", "{975214E4-CAD7-4003-9B6A-D7D4AB3F33B3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetUrCourse.Services.NotificationAPI", "src\Services\GetUrCourse.Services.NotificationAPI\GetUrCourse.Services.NotificationAPI.csproj", "{975214E4-CAD7-4003-9B6A-D7D4AB3F33B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetUrCourse.Contracts", "GetUrCourse.Contracts\GetUrCourse.Contracts.csproj", "{E81FB90B-78A3-4D4E-B119-7950B9BB48A5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetUrCourse.Contracts", "src\Services\GetUrCourse.Contracts\GetUrCourse.Contracts.csproj", "{E81FB90B-78A3-4D4E-B119-7950B9BB48A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetUrCourse.Orchestrator", "GetUrCourse.Orchestrator\GetUrCourse.Orchestrator.csproj", "{F893B0F4-1BB9-4573-A06E-81A132FD8015}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetUrCourse.Orchestrator", "src\Services\GetUrCourse.Orchestrator\GetUrCourse.Orchestrator.csproj", "{F893B0F4-1BB9-4573-A06E-81A132FD8015}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetUrCourse.Services.PaymentAPI", "GetUrCourse.Services.PaymentAPI\GetUrCourse.Services.PaymentAPI.csproj", "{0D1E4396-515B-4A75-A3D7-93D7F2D13E8E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetUrCourse.Services.PaymentAPI", "src\Services\GetUrCourse.Services.PaymentAPI\GetUrCourse.Services.PaymentAPI.csproj", "{0D1E4396-515B-4A75-A3D7-93D7F2D13E8E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{83E05B9C-77F1-4FE4-9C7C-983A03BBAE7C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{83E05B9C-77F1-4FE4-9C7C-983A03BBAE7C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetUrCourse.Notification.IntegrationTests", "GetUrCourse.Notification.IntegrationTests\GetUrCourse.Notification.IntegrationTests.csproj", "{630E71EF-C2BA-435A-8285-F2B6D5C5D1C2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetUrCourse.Notification.IntegrationTests", "tests\Notification\GetUrCourse.Notification.IntegrationTests\GetUrCourse.Notification.IntegrationTests.csproj", "{630E71EF-C2BA-435A-8285-F2B6D5C5D1C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetUrCourse.Payment.UnitTests", "GetUrCourse.Payment.UnitTests\GetUrCourse.Payment.UnitTests.csproj", "{85531882-E556-4E71-B8F9-53547988A940}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetUrCourse.Payment.UnitTests", "tests\Payment\GetUrCourse.Payment.UnitTests\GetUrCourse.Payment.UnitTests.csproj", "{85531882-E556-4E71-B8F9-53547988A940}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetUrCourse.Task.UnitTests", "GetUrCourse.Task.UnitTests\GetUrCourse.Task.UnitTests.csproj", "{C6EA0E1B-C14B-4134-8191-A923BF0CFA81}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetUrCourse.Task.UnitTests", "tests\Task\GetUrCourse.Task.UnitTests\GetUrCourse.Task.UnitTests.csproj", "{C6EA0E1B-C14B-4134-8191-A923BF0CFA81}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B3724DD4-AF34-40E5-92DC-DFFDDDBAA8FC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Task", "tests\Task", "{E3FFFEC7-4179-4BF4-9DB9-3F726EFBA233}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Payment", "tests\Payment", "{6DBDDACA-CBEC-4A35-AADC-B3350F0B04D9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "User", "tests\User", "{6E85B0FA-9AE3-4EAA-8BAE-BB913FE2EFDF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notification", "tests\Notification", "{58B29EE4-A362-495D-B2F7-B652A62AF93D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetUrCourse.User.UnitTests", "tests\User\GetUrCourse.User.UnitTests\GetUrCourse.User.UnitTests.csproj", "{70C50B62-2515-442F-8600-B67CECC2086F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -88,6 +100,10 @@ Global
 		{C6EA0E1B-C14B-4134-8191-A923BF0CFA81}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6EA0E1B-C14B-4134-8191-A923BF0CFA81}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6EA0E1B-C14B-4134-8191-A923BF0CFA81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70C50B62-2515-442F-8600-B67CECC2086F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70C50B62-2515-442F-8600-B67CECC2086F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70C50B62-2515-442F-8600-B67CECC2086F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70C50B62-2515-442F-8600-B67CECC2086F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -100,9 +116,19 @@ Global
 		{E2C72523-55A9-49EF-92ED-2FBDC752FF40} = {0311D5D2-FEE4-4F75-AEBF-5B32A06EB171}
 		{975214E4-CAD7-4003-9B6A-D7D4AB3F33B3} = {0311D5D2-FEE4-4F75-AEBF-5B32A06EB171}
 		{0D1E4396-515B-4A75-A3D7-93D7F2D13E8E} = {0311D5D2-FEE4-4F75-AEBF-5B32A06EB171}
-		{630E71EF-C2BA-435A-8285-F2B6D5C5D1C2} = {83E05B9C-77F1-4FE4-9C7C-983A03BBAE7C}
-		{85531882-E556-4E71-B8F9-53547988A940} = {83E05B9C-77F1-4FE4-9C7C-983A03BBAE7C}
-		{C6EA0E1B-C14B-4134-8191-A923BF0CFA81} = {83E05B9C-77F1-4FE4-9C7C-983A03BBAE7C}
+		{E3FFFEC7-4179-4BF4-9DB9-3F726EFBA233} = {83E05B9C-77F1-4FE4-9C7C-983A03BBAE7C}
+		{6DBDDACA-CBEC-4A35-AADC-B3350F0B04D9} = {83E05B9C-77F1-4FE4-9C7C-983A03BBAE7C}
+		{6E85B0FA-9AE3-4EAA-8BAE-BB913FE2EFDF} = {83E05B9C-77F1-4FE4-9C7C-983A03BBAE7C}
+		{58B29EE4-A362-495D-B2F7-B652A62AF93D} = {83E05B9C-77F1-4FE4-9C7C-983A03BBAE7C}
+		{8AB498A7-6518-408C-937F-647452AEA70F} = {B3724DD4-AF34-40E5-92DC-DFFDDDBAA8FC}
+		{AA472A8A-5CE0-4377-99C8-C5E23F836AAE} = {B3724DD4-AF34-40E5-92DC-DFFDDDBAA8FC}
+		{0311D5D2-FEE4-4F75-AEBF-5B32A06EB171} = {B3724DD4-AF34-40E5-92DC-DFFDDDBAA8FC}
+		{E81FB90B-78A3-4D4E-B119-7950B9BB48A5} = {0311D5D2-FEE4-4F75-AEBF-5B32A06EB171}
+		{F893B0F4-1BB9-4573-A06E-81A132FD8015} = {0311D5D2-FEE4-4F75-AEBF-5B32A06EB171}
+		{630E71EF-C2BA-435A-8285-F2B6D5C5D1C2} = {58B29EE4-A362-495D-B2F7-B652A62AF93D}
+		{85531882-E556-4E71-B8F9-53547988A940} = {6DBDDACA-CBEC-4A35-AADC-B3350F0B04D9}
+		{C6EA0E1B-C14B-4134-8191-A923BF0CFA81} = {E3FFFEC7-4179-4BF4-9DB9-3F726EFBA233}
+		{70C50B62-2515-442F-8600-B67CECC2086F} = {6E85B0FA-9AE3-4EAA-8BAE-BB913FE2EFDF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A29657BA-E9BF-4A11-AC3B-2C7B9BCD1F02}

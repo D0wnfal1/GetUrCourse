@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GetUrCourse.Services.TaskAPI\GetUrCourse.Services.TaskAPI.csproj" />
+    <ProjectReference Include="..\..\..\src\Services\GetUrCourse.Services.PaymentAPI\GetUrCourse.Services.PaymentAPI.csproj" />
   </ItemGroup>
 
   <ItemGroup>
